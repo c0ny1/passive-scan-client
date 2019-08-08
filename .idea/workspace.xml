@@ -6,7 +6,28 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="98518c03-f4c8-4d98-b46a-3983bc187b64" name="Default Changelist" comment="" />
+    <list default="true" id="98518c03-f4c8-4d98-b46a-3983bc187b64" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/passive_scan_client_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/c0ny1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_portswigger_burp_extender_burp_extender_api_1_7_22.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/passive-scan-client.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/burp/BurpExtender.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/burp/Config.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/burp/GUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/burp/HttpAndHttpsProxy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/burp/HttpLogTable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/burp/HttpLogTableModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/burp/LogEntry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/burp/Utils.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,7 +55,7 @@
           <entry key="class" value="4" />
           <entry key="gitignore" value="1" />
           <entry key="java" value="25" />
-          <entry key="md" value="2" />
+          <entry key="md" value="3" />
           <entry key="xml" value="5" />
         </counts>
       </usages-collector>
@@ -43,7 +64,7 @@
           <entry key="CLASS" value="4" />
           <entry key="Git file" value="1" />
           <entry key="JAVA" value="25" />
-          <entry key="Markdown" value="2" />
+          <entry key="Markdown" value="3" />
           <entry key="XML" value="5" />
         </counts>
       </usages-collector>
@@ -65,18 +86,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/burp/BurpExtender.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1004">
-              <caret line="80" column="37" selection-start-line="80" selection-start-column="37" selection-end-line="80" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/burp/HttpAndHttpsProxy.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -148,9 +157,21 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="1012">
+                <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -202,6 +223,9 @@
       <find>spTestPayload</find>
       <find>btnConn</find>
     </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -542,6 +566,7 @@
       </profile-state>
     </entry>
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -593,10 +618,6 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="burp" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="passive-scan-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -610,7 +631,7 @@
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="passive-scan-client" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1565227622026" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1565227753537" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -672,12 +693,12 @@
       <workItem from="1564743692895" duration="3981000" />
       <workItem from="1564815718347" duration="204000" />
       <workItem from="1564875583398" duration="23905000" />
-      <workItem from="1565178452533" duration="2689000" />
+      <workItem from="1565178452533" duration="2887000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53898000" />
+    <option name="totallyTimeSpent" value="54096000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -771,16 +792,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/burp/HttpClient.java" />
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="609">
-            <caret line="50" column="49" selection-start-line="50" selection-start-column="49" selection-end-line="50" selection-end-column="49" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/burp/Test.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
@@ -890,6 +901,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="1012">
+            <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">
