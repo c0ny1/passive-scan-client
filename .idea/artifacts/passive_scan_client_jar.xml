@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="passive-scan-client:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/passive_scan_client_jar</output-path>
+    <root id="archive" name="passive-scan-client.jar">
+      <element id="module-output" name="passive-scan-client" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/portswigger/burp/extender/burp-extender-api/1.7.22/burp-extender-api-1.7.22.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
