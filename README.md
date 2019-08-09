@@ -1,12 +1,40 @@
+# Passive Scan Client | Burp被动扫描流量转发插件
+
+
+## 简介
+
+```
+Q1: 将浏览器代理到被动扫描器上，访问网站变慢，甚至有时被封ip，这该怎么办？
+Q2: 需要人工渗透的同时后台进行被动扫描改，到底是代理到burp还是被动扫描器？
+```
+
+如果你遇到过这两个问题，那么该插件是你要寻找的东西！
+
+插件将正常访问网站的流量与提交给被动扫描器的流量单独分开了，互不影响。
+
+
+## 演示
+
+![动图演示](./doc/show.gif)
+
+## 一些被动式漏洞扫描器
+* https://github.com/ysrc/GourdScanV2 ysrc出品的被动式漏洞扫描工具，基于sqlmapapi
+* https://github.com/chaitin/xray 由长亭科技出品的一块被动式漏洞扫描器
+* https://github.com/boy-hack/w13scan Passive Security Scanner (被动安全扫描器)
+* https://github.com/fengxuangit/Fox-scan 基于sqlmapapi的主动和被动资源发现的漏洞扫描工具
+* https://github.com/0xbug/SQLiScanner 一款基于sqlmapapi和Charles的被动SQL注入漏洞扫描工具
+* https://github.com/zt2/sqli-hunter 基于sqlmapapi，ruby编写的漏洞代理型检测工具
+* https://github.com/AttackandDefenceSecurityLab/huimwvs/ 插件转发流量
+
+## 更多
+
+## 浏览器插件 VS Burp插件
+
 前有Govscan，后有xary。我就不浪费时间自己造轮子了。大佬们，为我们铺好了路，还是非常感谢的。
 
 但是依然存在一个问题，那就是"直接设置浏览器代理到被动扫描器影响访问网站的速度"
 
 接下来动手解决这`最后一公里`问题吧。
-
-
-
-## 浏览器插件 VS Burp插件
 
 到底开发的是浏览器插件还是burp插件为好呢？
 
@@ -14,8 +42,6 @@
 
 想想我们的工作主要还是在burp上，这样所有的浏览器都代理到burp，由burp插件统一将流量提交到
 扫描器上。这样通用型更强写。
-
-
 
 
 而且如果要渗透过程中想手工测试同时被动扫描，那么要做个2层代理。
@@ -46,16 +72,6 @@ https的证书，插件回默认全部信任，大家不用担心证书问题。
 ## 被动扫描器应该由认证功能
 
 这里也推荐被动扫描器作者应该添加认证，至少我在插件中已经集成了认证功能。可不能让人乱代理到扫描器，不是？
-
-## 一些被动式扫描工具
-* https://github.com/chaitin/xray 由长亭科技出品的一块被动式漏洞扫描器
-* https://github.com/0xbug/SQLiScanner 一款基于sqlmapapi和Charles的被动SQL注入漏洞扫描工具
-* https://github.com/fengxuangit/Fox-scan 基于sqlmapapi的主动和被动资源发现的漏洞扫描工具
-* https://github.com/ysrc/GourdScanV2 ysrc出品的被动式漏洞扫描工具，基于sqlmapapi
-* https://github.com/zt2/sqli-hunter 基于sqlmapapi，ruby编写的漏洞代理型检测工具
-* https://github.com/AttackandDefenceSecurityLab/huimwvs/ 插件转发流量
-* https://github.com/boy-hack/w13scan Passive Security Scanner (被动安全扫描器)
-
 
 
 ## 参考文章
