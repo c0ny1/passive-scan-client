@@ -1,17 +1,11 @@
 package burp;
 
-
-import sun.tools.jconsole.inspector.TableSorter;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-import javax.xml.transform.sax.SAXTransformerFactory;
 
 public class GUI implements IMessageEditorController {
     private JPanel contentPane;
@@ -37,61 +31,134 @@ public class GUI implements IMessageEditorController {
     public static JLabel lbFailCount;
 
 
-
-
     public GUI() {
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
 
-        JPanel panel = new JPanel();
-        panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        panel.setLayout(new BorderLayout(0, 0));
-        contentPane.add(panel, BorderLayout.NORTH);
+        ////////////////////////////////////////////////////////////////////
+        // topPanel start
+        ////////////////////////////////////////////////////////////////////
+        JPanel topPanel = new JPanel();
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[] { 0, 0 };
+        gridBagLayout.rowHeights = new int[] { 40, 32, 0, 0 };
+        gridBagLayout.columnWeights = new double[] { 1.0D, Double.MIN_VALUE };
+        gridBagLayout.rowWeights = new double[] { 0.0D, 0.0D, 1.0D, Double.MIN_VALUE };
+        topPanel.setLayout(gridBagLayout);
 
-        JPanel OptionPanel = new JPanel();
-        FlowLayout flowLayout = (FlowLayout) OptionPanel.getLayout();
-        flowLayout.setAlignment(FlowLayout.LEFT);
-        //OptionPanel.setBorder(BorderFactory.createTitledBorder("Config"));
+        JPanel ConfigPanel = new JPanel();
+        GridBagConstraints gbc_panel = new GridBagConstraints();
+        gbc_panel.insets = new Insets(5, 5, 5, 5);
+        gbc_panel.fill = 2;
+        gbc_panel.gridx = 0;
+        gbc_panel.gridy = 0;
+        topPanel.add(ConfigPanel, gbc_panel);
+
+        GridBagLayout gbl_panel = new GridBagLayout();
+        gbl_panel.columnWidths = new int[] { 40, 100, 0, 39, 33, 25, 0, 0, 0 };
+        gbl_panel.rowHeights = new int[] { 0, 0 };
+        gbl_panel.columnWeights = new double[] { 0.0D, 0.0D,0.0D, 0.0D,  0.0D, 0.0D,0.0D,0.0D,0.0D,0.0D,1.0D, 0.0D, 0.0D, Double.MIN_VALUE };
+        gbl_panel.rowWeights = new double[] { 0.0D, Double.MIN_VALUE };
+        ConfigPanel.setLayout(gbl_panel);
 
         lbHost = new JLabel("Host:");
-        OptionPanel.add(lbHost);
+        GridBagConstraints gbc_lbHost = new GridBagConstraints();
+        gbc_lbHost.fill = 2;
+        gbc_lbHost.insets = new Insets(0, 0, 0, 5);
+        gbc_lbHost.gridx = 0;
+        gbc_lbHost.gridy = 0;
+        ConfigPanel.add(lbHost, gbc_lbHost);
+
+
         tfHost = new JTextField();
         tfHost.setColumns(10);
         tfHost.setText("127.0.0.1");
-        OptionPanel.add(tfHost);
+        GridBagConstraints gbc_tfHost = new GridBagConstraints();
+        gbc_tfHost.fill = 2;
+        gbc_tfHost.insets = new Insets(0, 0, 0, 5);
+        gbc_tfHost.gridx = 1;
+        gbc_tfHost.gridy = 0;
+        ConfigPanel.add(tfHost, gbc_tfHost);
 
         lbPort = new JLabel("Port:");
-        OptionPanel.add(lbPort);
+        GridBagConstraints gbc_lbPort = new GridBagConstraints();
+        gbc_lbPort.fill = 2;
+        gbc_lbPort.insets = new Insets(0, 0, 0, 5);
+        gbc_lbPort.gridx = 2;
+        gbc_lbPort.gridy = 0;
+        ConfigPanel.add(lbPort, gbc_lbPort);
+
         tfPort = new JTextField();
         tfPort.setText("1664");
         tfPort.setColumns(10);
-        OptionPanel.add(tfPort);
+        GridBagConstraints gbc_tfPort = new GridBagConstraints();
+        gbc_tfPort.fill = 2;
+        gbc_tfPort.insets = new Insets(0, 0, 0, 5);
+        gbc_tfPort.gridx = 3;
+        gbc_tfPort.gridy = 0;
+        ConfigPanel.add(tfPort, gbc_tfPort);
 
         lbUsername = new JLabel("Username:");
-        OptionPanel.add(lbUsername);
+        GridBagConstraints gbc_lbUsername = new GridBagConstraints();
+        gbc_lbUsername.fill = 2;
+        gbc_lbUsername.insets = new Insets(0, 0, 0, 5);
+        gbc_lbUsername.gridx = 4;
+        gbc_lbUsername.gridy = 0;
+        ConfigPanel.add(lbUsername, gbc_lbUsername);
+
         tfUsername = new JTextField();
         tfUsername.setText("");
         tfUsername.setColumns(10);
-        OptionPanel.add(tfUsername);
-
+        GridBagConstraints gbc_tfUsername = new GridBagConstraints();
+        gbc_tfUsername.fill = 2;
+        gbc_tfUsername.insets = new Insets(0, 0, 0, 5);
+        gbc_tfUsername.gridx = 5;
+        gbc_tfUsername.gridy = 0;
+        ConfigPanel.add(tfUsername, gbc_tfUsername);
 
         lbPassword = new JLabel("Password:");
-        OptionPanel.add(lbPassword);
+        GridBagConstraints gbc_lbPassword = new GridBagConstraints();
+        gbc_lbPassword.fill = 2;
+        gbc_lbPassword.insets = new Insets(0, 0, 0, 5);
+        gbc_lbPassword.gridx = 6;
+        gbc_lbPassword.gridy = 0;
+        ConfigPanel.add(lbPassword, gbc_lbPassword);
+
         tfPassword = new JTextField();
         tfPassword.setText("");
         tfPassword.setColumns(10);
-        OptionPanel.add(tfPassword);
-
+        GridBagConstraints gbc_tfPassword = new GridBagConstraints();
+        gbc_tfPassword.fill = 2;
+        gbc_tfPassword.insets = new Insets(0, 0, 0, 5);
+        gbc_tfPassword.gridx = 7;
+        gbc_tfPassword.gridy = 0;
+        ConfigPanel.add(tfPassword, gbc_tfPassword);
 
         lbTimeout = new JLabel("Timeout:");
-        OptionPanel.add(lbTimeout);
+        GridBagConstraints gbc_lbTimeout = new GridBagConstraints();
+        gbc_lbTimeout.fill = 2;
+        gbc_lbTimeout.gridx = 8;
+        gbc_lbTimeout.gridy = 0;
+        ConfigPanel.add(lbTimeout, gbc_lbTimeout);
+
         tfTimeout = new JTextField();
         tfTimeout.setText("5000");
         tfTimeout.setColumns(5);
-        OptionPanel.add(tfTimeout);
+        GridBagConstraints gbc_tfTimeout = new GridBagConstraints();
+        gbc_tfTimeout.fill = 2;
+        gbc_tfTimeout.insets = new Insets(0, 0, 0, 5);
+        gbc_tfTimeout.gridx = 9;
+        gbc_tfTimeout.gridy = 0;
+        ConfigPanel.add(tfTimeout, gbc_tfTimeout);
 
 
+        GridBagConstraints gbc_lb1 = new GridBagConstraints();
+        gbc_lb1.anchor = 13;
+        gbc_lb1.insets = new Insets(0, 0, 0, 5);
+        gbc_lb1.gridx = 10;
+        gbc_lb1.gridy = 0;
+        ConfigPanel.add(new JLabel(""), gbc_lb1);
 
         btnConn = new JToggleButton("Run");
         btnConn.addChangeListener(new ChangeListener() {
@@ -118,7 +185,12 @@ public class GUI implements IMessageEditorController {
 
             }
         });
-        OptionPanel.add(btnConn);
+        GridBagConstraints gbc_btnConn = new GridBagConstraints();
+        gbc_btnConn.fill = 2;
+        gbc_btnConn.insets = new Insets(0, 0, 0, 5);
+        gbc_btnConn.gridx = 11;
+        gbc_btnConn.gridy = 0;
+        ConfigPanel.add(btnConn, gbc_btnConn);
 
         btnClear = new JButton("Clear");
         btnClear.addActionListener(new AbstractAction() {
@@ -138,47 +210,143 @@ public class GUI implements IMessageEditorController {
                 }
             }
         });
-        OptionPanel.add(btnClear);
+        GridBagConstraints gbc_btnClear = new GridBagConstraints();
+        gbc_btnClear.fill = 2;
+        gbc_btnClear.insets = new Insets(0, 0, 0, 5);
+        gbc_btnClear.gridx = 12;
+        gbc_btnClear.gridy = 0;
+        ConfigPanel.add(btnClear, gbc_btnClear);
+        ////////////////////////////////////////////////////////////////////
 
-        panel.add(OptionPanel, BorderLayout.NORTH);
-
-        JPanel ActOnPanel = new JPanel();
-        FlowLayout actFlowLayout = (FlowLayout) ActOnPanel.getLayout();
-        actFlowLayout.setAlignment(FlowLayout.LEFT);
-        //ActOnPanel.setBorder(BorderFactory.createTitledBorder("Tools"));
+        JPanel FilterPanel = new JPanel();
+        GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+        gbc_panel_1.insets = new Insets(0, 5, 5, 5);
+        gbc_panel_1.fill = 2;
+        gbc_panel_1.gridx = 0;
+        gbc_panel_1.gridy = 1;
+        topPanel.add(FilterPanel, gbc_panel_1);
+        GridBagLayout gbl_panel_1 = new GridBagLayout();
+        gbl_panel_1.columnWidths = new int[] { 40, 225, 0, 0, 0 };
+        gbl_panel_1.rowHeights = new int[] { 0, 0 };
+        gbl_panel_1.columnWeights = new double[] { 0.0D, 0.0D, 0.0D,0.0D,1.0D, 0.0D, 0.0D,0.0D,0.0D,0.0D,0.0D,0.0D,Double.MIN_VALUE };
+        gbl_panel_1.rowWeights = new double[] { 0.0D, Double.MIN_VALUE };
+        FilterPanel.setLayout(gbl_panel_1);
 
         JLabel lbDomain = new JLabel("Domain:");
+        GridBagConstraints gbc_lblDomain = new GridBagConstraints();
+        gbc_lblDomain.insets = new Insets(0, 0, 0, 5);
+        gbc_lblDomain.anchor = 13;
+        gbc_lblDomain.gridx = 0;
+        gbc_lblDomain.gridy = 0;
+        FilterPanel.add(lbDomain, gbc_lblDomain);
+
+
         tfDomain = new JTextField(20);
         tfDomain.setText("");
-        ActOnPanel.add(lbDomain);
-        ActOnPanel.add(tfDomain);
+        GridBagConstraints gbc_tfDomain = new GridBagConstraints();
+        gbc_tfDomain.insets = new Insets(0, 0, 0, 5);
+        gbc_tfDomain.fill = 2;
+        gbc_tfDomain.gridx = 1;
+        gbc_tfDomain.gridy = 0;
+        FilterPanel.add(tfDomain, gbc_tfDomain);
+
 
         JLabel lbExcludeSuffix = new JLabel("Exclude suffix:");
+        GridBagConstraints gbc_lbExcludeSuffix = new GridBagConstraints();
+        gbc_lbExcludeSuffix.insets = new Insets(0, 0, 0, 5);
+        gbc_lbExcludeSuffix.anchor = 13;
+        gbc_lbExcludeSuffix.fill = 2;
+        gbc_lbExcludeSuffix.gridx = 2;
+        gbc_lbExcludeSuffix.gridy = 0;
+        FilterPanel.add(lbExcludeSuffix, gbc_lbExcludeSuffix);
+
         tfExcludeSuffix = new JTextField(35);
         tfExcludeSuffix.setText("js|css|jpeg|gif|jpg|png|pdf|rar|zip|docx|doc");
-        ActOnPanel.add(lbExcludeSuffix);
-        ActOnPanel.add(tfExcludeSuffix);
+        GridBagConstraints gbc_tfExcludeSuffix = new GridBagConstraints();
+        gbc_tfExcludeSuffix.insets = new Insets(0, 0, 0, 5);
+        gbc_tfExcludeSuffix.fill = 2;
+        gbc_tfExcludeSuffix.gridx = 3;
+        gbc_tfExcludeSuffix.gridy = 0;
+        FilterPanel.add(tfExcludeSuffix, gbc_tfExcludeSuffix);
 
-        ActOnPanel.add(Box.createVerticalBox());
+
+        GridBagConstraints gbc_vb = new GridBagConstraints();
+        gbc_vb.insets = new Insets(0, 0, 0, 5);
+        gbc_vb.fill = 2;
+        gbc_vb.gridx = 4;
+        gbc_vb.gridy = 0;
+        FilterPanel.add(Box.createVerticalBox(), gbc_vb);
+
         JLabel lbRequest = new JLabel("Total:");
+        GridBagConstraints gbc_lbRequest = new GridBagConstraints();
+        gbc_lbRequest.insets = new Insets(0, 0, 0, 5);
+        gbc_lbRequest.fill = 2;
+        gbc_lbRequest.gridx = 5;
+        gbc_lbRequest.gridy = 0;
+        FilterPanel.add(lbRequest, gbc_lbRequest);
+
+
         lbRequestCount = new JLabel("0");
         lbRequestCount.setForeground(new Color(0,0,255));
-        ActOnPanel.add(lbRequest);
-        ActOnPanel.add(lbRequestCount);
-        ActOnPanel.add(Box.createVerticalBox());
+        GridBagConstraints gbc_lbRequestCount = new GridBagConstraints();
+        gbc_lbRequestCount.insets = new Insets(0, 0, 0, 5);
+        gbc_lbRequestCount.fill = 2;
+        gbc_lbRequestCount.gridx = 6;
+        gbc_lbRequestCount.gridy = 0;
+        FilterPanel.add(lbRequestCount, gbc_lbRequestCount);
+
+        GridBagConstraints gbc_vb2 = new GridBagConstraints();
+        gbc_vb2.insets = new Insets(0, 0, 0, 5);
+        gbc_vb2.fill = 2;
+        gbc_vb2.gridx = 7;
+        gbc_vb2.gridy = 0;
+        FilterPanel.add(Box.createVerticalBox(), gbc_vb);
+
         JLabel lbSucces = new JLabel("Success:");
+        GridBagConstraints gbc_lbSucces = new GridBagConstraints();
+        gbc_lbSucces.insets = new Insets(0, 0, 0, 5);
+        gbc_lbSucces.fill = 2;
+        gbc_lbSucces.gridx = 8;
+        gbc_lbSucces.gridy = 0;
+        FilterPanel.add(lbSucces, gbc_lbSucces);
+
         lbSuccesCount = new JLabel("0");
         lbSuccesCount.setForeground(new Color(0, 255, 0));
-        ActOnPanel.add(lbSucces);
-        ActOnPanel.add(lbSuccesCount);
-        ActOnPanel.add(Box.createVerticalBox());
+        GridBagConstraints gbc_lbSuccesCount = new GridBagConstraints();
+        gbc_lbSuccesCount.insets = new Insets(0, 0, 0, 5);
+        gbc_lbSuccesCount.fill = 2;
+        gbc_lbSuccesCount.gridx = 9;
+        gbc_lbSuccesCount.gridy = 0;
+        FilterPanel.add(lbSuccesCount, gbc_lbSuccesCount);
+
+        GridBagConstraints gbc_vb3 = new GridBagConstraints();
+        gbc_vb3.insets = new Insets(0, 0, 0, 5);
+        gbc_vb3.fill = 2;
+        gbc_vb3.gridx = 10;
+        gbc_vb3.gridy = 0;
+        FilterPanel.add(Box.createVerticalBox(), gbc_vb3);
+
         JLabel lbFail = new JLabel("Fail:");
+        GridBagConstraints gbc_lbFail = new GridBagConstraints();
+        gbc_lbFail.insets = new Insets(0, 0, 0, 5);
+        gbc_lbFail.fill = 2;
+        gbc_lbFail.gridx = 11;
+        gbc_lbFail.gridy = 0;
+        FilterPanel.add(lbFail, gbc_lbFail);
+
         lbFailCount = new JLabel("0");
         lbFailCount.setForeground(new Color(255, 0, 0));
-        ActOnPanel.add(lbFail);
-        ActOnPanel.add(lbFailCount);
+        GridBagConstraints gbc_lbFailCount = new GridBagConstraints();
+        gbc_lbFailCount.insets = new Insets(0, 0, 0, 5);
+        gbc_lbFailCount.fill = 2;
+        gbc_lbFailCount.gridx = 12;
+        gbc_lbFailCount.gridy = 0;
+        FilterPanel.add(lbFailCount, gbc_lbFailCount);
 
-        panel.add(ActOnPanel,BorderLayout.SOUTH);
+        contentPane.add(topPanel,BorderLayout.NORTH);
+        ////////////////////////////////////////////////////////////////////
+        // topPanl end
+        ////////////////////////////////////////////////////////////////////
 
         splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         splitPane.setDividerLocation(0.5);
@@ -204,7 +372,7 @@ public class GUI implements IMessageEditorController {
         tabs.addTab("Proxy response",BurpExtender.proxyRspViewer.getComponent());
         splitPane.setBottomComponent(tabs);
 
-        BurpExtender.callbacks.customizeUiComponent(panel);
+        BurpExtender.callbacks.customizeUiComponent(topPanel);
         BurpExtender.callbacks.customizeUiComponent(btnConn);
         BurpExtender.callbacks.customizeUiComponent(splitPane);
         BurpExtender.callbacks.customizeUiComponent(contentPane);
@@ -227,15 +395,10 @@ public class GUI implements IMessageEditorController {
     }
 
     public void setAllEnabled(boolean is){
-        //lbHost.setEnabled(is);
         tfHost.setEnabled(is);
-        //lbPort.setEnabled(is);
         tfPort.setEnabled(is);
-        //lbUsername.setEnabled(is);
         tfUsername.setEnabled(is);
-        //lbPassword.setEnabled(is);
         tfPassword.setEnabled(is);
-        //lbTimeout.setEnabled(is);
         tfTimeout.setEnabled(is);
         tfDomain.setEnabled(is);
         tfExcludeSuffix.setEnabled(is);
