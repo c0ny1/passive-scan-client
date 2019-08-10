@@ -26,10 +26,9 @@ mvn package
 ![动图演示](./doc/show.gif)
 
 ## 一些被动式漏洞扫描器
-* https://github.com/ysrc/GourdScanV2 ysrc出品的被动式漏洞扫描工具，基于sqlmapapi
-* https://github.com/chaitin/xray 由长亭科技出品的一块被动式漏洞扫描器
-* https://github.com/boy-hack/w13scan Passive Security Scanner (被动安全扫描器)
-* https://github.com/fengxuangit/Fox-scan 基于sqlmapapi的主动和被动资源发现的漏洞扫描工具
-* https://github.com/0xbug/SQLiScanner 一款基于sqlmapapi和Charles的被动SQL注入漏洞扫描工具
-* https://github.com/zt2/sqli-hunter 基于sqlmapapi，ruby编写的漏洞代理型检测工具
-* https://github.com/AttackandDefenceSecurityLab/huimwvs/ 插件转发流量
+* [GourdScanV2](https://github.com/ysrc/GourdScanV2)  由ysrc出品的基于sqlmapapi的被动式漏洞扫描器
+* [xray](https://github.com/chaitin/xray) 由长亭科技出品的一款被动式漏洞扫描器
+* [w13scan](https://github.com/boy-hack/w13scan) Passive Security Scanner (被动安全扫描器)
+* [Fox-scan](https://github.com/fengxuangit/Fox-scan) 基于sqlmapapi的主动和被动资源发现的漏洞扫描工具
+* [SQLiScanner](https://github.com/0xbug/SQLiScanner) 一款基于sqlmapapi和Charles的被动SQL注入漏洞扫描工具
+* [sqli-hunter](https://github.com/zt2/sqli-hunter) 基于sqlmapapi，ruby编写的漏洞代理型检测工具

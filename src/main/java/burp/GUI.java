@@ -356,9 +356,12 @@ public class GUI implements IMessageEditorController {
 
         HttpLogTableModel model = new HttpLogTableModel();
         logTable = new HttpLogTable(model);
-        //JTable表头排序
+        //JTable表头排序,以下两种方法均存在问题，导致界面混乱。
+        //方式一
         //TableRowSorter<HttpLogTableModel> tableRowSorter=new TableRowSorter<HttpLogTableModel>(model);
         //logTable.setRowSorter(tableRowSorter);
+        //方式二
+        //logTable.setAutoCreateRowSorter(true);
 
         JScrollPane jspLogTable = new JScrollPane(logTable);
         splitPane.setTopComponent(jspLogTable);

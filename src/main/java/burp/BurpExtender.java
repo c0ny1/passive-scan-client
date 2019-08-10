@@ -49,7 +49,6 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
                 //按照比例显示列宽
                 float[] columnWidthPercentage = {5.0f, 5.0f, 55.0f, 20.0f, 15.0f};
                 int tW = GUI.logTable.getWidth();
-                BurpExtender.stdout.println(tW);
                 TableColumn column;
                 TableColumnModel jTableColumnModel = GUI.logTable.getColumnModel();
                 int cantCols = jTableColumnModel.getColumnCount();
