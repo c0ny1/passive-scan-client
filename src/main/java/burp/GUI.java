@@ -6,8 +6,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
 public class GUI implements IMessageEditorController {
     private JPanel contentPane;
@@ -209,6 +207,9 @@ public class GUI implements IMessageEditorController {
                     BurpExtender.log.clear();
                     logTable.getHttpLogTableModel().fireTableDataChanged();//通知模型更新
                     logTable.updateUI();//刷新表格
+                    BurpExtender.requestViewer.setMessage("".getBytes(),true);
+                    BurpExtender.responseViewer.setMessage("".getBytes(),false);
+                    BurpExtender.proxyRspViewer.setText("".getBytes());
                 }
             }
         });
