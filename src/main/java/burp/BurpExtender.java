@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.swing.*;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
     public final static String extensionName = "Passive Scan Client";
@@ -32,16 +34,32 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
 
         callbacks.setExtensionName(extensionName + " " + version);
         BurpExtender.this.gui = new GUI();
-        SwingUtilities.invokeLater(new Runnable()
-        {
-            public void run()
-            {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
                 BurpExtender.this.callbacks.addSuiteTab(BurpExtender.this);
                 BurpExtender.this.callbacks.registerProxyListener(BurpExtender.this);
                 stdout.println(Utils.getBanner());
             }
         });
         executorService = Executors.newSingleThreadExecutor();
+        //必须等插件界面显示完毕，重置JTable列宽才生效
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                //按照比例显示列宽
+                float[] columnWidthPercentage = {5.0f, 5.0f, 55.0f, 20.0f, 15.0f};
+                int tW = GUI.logTable.getWidth();
+                BurpExtender.stdout.println(tW);
+                TableColumn column;
+                TableColumnModel jTableColumnModel = GUI.logTable.getColumnModel();
+                int cantCols = jTableColumnModel.getColumnCount();
+                for (int i = 0; i < cantCols; i++) {
+                    column = jTableColumnModel.getColumn(i);
+                    int pWidth = Math.round(columnWidthPercentage[i] * tW);
+                    column.setPreferredWidth(pWidth);
+                }
+            }
+        });
     }
 
 
