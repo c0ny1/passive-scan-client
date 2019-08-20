@@ -104,7 +104,7 @@ public class HttpAndHttpsProxy {
 
             if(body != null) {
                 // 发送请求参数
-                out.print(body);
+                out.print(new String(body));
             }
             // flush输出流的缓冲
             out.flush();
@@ -212,7 +212,7 @@ public class HttpAndHttpsProxy {
 
             if(body != null) {
                 // 发送请求参数
-                out.print(body);
+                out.print(new String(body));
             }
             // flush输出流的缓冲
             out.flush();

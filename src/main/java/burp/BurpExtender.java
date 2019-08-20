@@ -18,9 +18,6 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
     public static PrintWriter stderr;
     public static GUI gui;
     public static final List<LogEntry> log = new ArrayList<LogEntry>();
-    public static IMessageEditor requestViewer;
-    public static IMessageEditor responseViewer;
-    public static ITextEditor proxyRspViewer;
     public static BurpExtender burpExtender;
     private ExecutorService executorService;
 
@@ -83,6 +80,8 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
             IHttpService httpService = reprsp.getHttpService();
 
             String host = reprsp.getHttpService().getHost();
+            stdout.println("[+] host:" + host);
+            stdout.println(Config.DOMAIN_REGX);
             if(!Utils.isMathch(Config.DOMAIN_REGX,host)){
                 return;
             }

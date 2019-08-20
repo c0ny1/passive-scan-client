@@ -30,6 +30,10 @@ public class GUI implements IMessageEditorController {
     public static JLabel lbSuccesCount;
     public static JLabel lbFailCount;
 
+    public static IMessageEditor requestViewer;
+    public static IMessageEditor responseViewer;
+    public static ITextEditor proxyRspViewer;
+
 
     public GUI() {
         contentPane = new JPanel();
@@ -207,9 +211,9 @@ public class GUI implements IMessageEditorController {
                     BurpExtender.log.clear();
                     logTable.getHttpLogTableModel().fireTableDataChanged();//通知模型更新
                     logTable.updateUI();//刷新表格
-                    BurpExtender.requestViewer.setMessage("".getBytes(),true);
-                    BurpExtender.responseViewer.setMessage("".getBytes(),false);
-                    BurpExtender.proxyRspViewer.setText("".getBytes());
+                    requestViewer.setMessage("".getBytes(),true);
+                    responseViewer.setMessage("".getBytes(),false);
+                    proxyRspViewer.setText("".getBytes());
                 }
             }
         });
@@ -369,13 +373,13 @@ public class GUI implements IMessageEditorController {
 
 
         JTabbedPane tabs = new JTabbedPane();
-        BurpExtender.requestViewer = BurpExtender.callbacks.createMessageEditor(this, false);
-        BurpExtender.responseViewer = BurpExtender.callbacks.createMessageEditor(this, false);
-        BurpExtender.proxyRspViewer = BurpExtender.callbacks.createTextEditor();
+        requestViewer = BurpExtender.callbacks.createMessageEditor(this, false);
+        responseViewer = BurpExtender.callbacks.createMessageEditor(this, false);
+        proxyRspViewer = BurpExtender.callbacks.createTextEditor();
 
-        tabs.addTab("Request", BurpExtender.requestViewer.getComponent());
-        tabs.addTab("Original response", BurpExtender.responseViewer.getComponent());
-        tabs.addTab("Proxy response",BurpExtender.proxyRspViewer.getComponent());
+        tabs.addTab("Request", requestViewer.getComponent());
+        tabs.addTab("Original response", responseViewer.getComponent());
+        tabs.addTab("Proxy response",proxyRspViewer.getComponent());
         splitPane.setBottomComponent(tabs);
 
         BurpExtender.callbacks.customizeUiComponent(topPanel);

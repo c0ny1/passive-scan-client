@@ -21,10 +21,10 @@ public class HttpLogTable extends JTable {
         super.changeSelection(row, col, toggle, extend);
         // show the log entry for the selected row
         LogEntry logEntry = BurpExtender.log.get(row);
-        BurpExtender.requestViewer.setMessage(logEntry.requestResponse.getRequest(), true);
-        BurpExtender.responseViewer.setMessage(logEntry.requestResponse.getResponse(), false);
-        BurpExtender.proxyRspViewer.setText(logEntry.proxyResponse.getBytes());
-        BurpExtender.proxyRspViewer.setEditable(false);
+        GUI.requestViewer.setMessage(logEntry.requestResponse.getRequest(), true);
+        GUI.responseViewer.setMessage(logEntry.requestResponse.getResponse(), false);
+        GUI.proxyRspViewer.setText(logEntry.proxyResponse.getBytes());
+        GUI.proxyRspViewer.setEditable(false);
         GUI.currentlyDisplayedItem = logEntry.requestResponse;
 
     }
