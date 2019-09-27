@@ -78,10 +78,8 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
         if (!messageIsRequest && Config.IS_RUNNING) {
             IHttpRequestResponse reprsp = iInterceptedProxyMessage.getMessageInfo();
             IHttpService httpService = reprsp.getHttpService();
-
             String host = reprsp.getHttpService().getHost();
-            stdout.println("[+] host:" + host);
-            stdout.println(Config.DOMAIN_REGX);
+            //stdout.println(Config.DOMAIN_REGX);
             if(!Utils.isMathch(Config.DOMAIN_REGX,host)){
                 return;
             }

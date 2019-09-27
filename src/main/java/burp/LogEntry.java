@@ -1,5 +1,7 @@
 package burp;
 
+import sun.jvm.hotspot.memory.HeapBlock;
+
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,7 +22,7 @@ public class LogEntry {
         this.url = url;
         this.method = method;
         this.status = mapResult.get("status");
-        this.proxyResponse = mapResult.get("result");
+        this.proxyResponse = mapResult.get("header") + "\r\n" + mapResult.get("result");
         this.requestTime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
     }
 }

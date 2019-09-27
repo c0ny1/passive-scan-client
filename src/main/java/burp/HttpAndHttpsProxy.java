@@ -53,6 +53,7 @@ public class HttpAndHttpsProxy {
     public static Map<String,String> HttpsProxy(String url, List<String> headers,byte[] body, String proxy, int port,String username,String password){
         Map<String,String> mapResult = new HashMap<String,String>();
         String status = "";
+        String rspHeader = "";
         String result = "";
 
         HttpsURLConnection httpsConn = null;
@@ -114,11 +115,31 @@ public class HttpAndHttpsProxy {
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
+                result += "\r\n";
             }
             // 断开连接
             httpsConn.disconnect();
             //BurpExtender.stdout.println("====result===="+result);
-            BurpExtender.stdout.println("返回结果https：" + httpsConn.getResponseMessage());
+            // 获取响应头
+            Map<String, List<String>> mapHeaders = httpsConn.getHeaderFields();
+            for (Map.Entry<String, List<String>> entry : mapHeaders.entrySet()) {
+                String key = entry.getKey();
+                List<String> values = entry.getValue();
+                String value = "";
+                for(String v:values){
+                    value += v;
+                }
+
+                if(key == null) {
+                    String header_line = String.format("%s\r\n",value);
+                    rspHeader += header_line;
+                }else{
+                    String header_line = String.format("%s: %s\r\n", key, value);
+                    rspHeader += header_line;
+                }
+            }
+
+            //BurpExtender.stdout.println("返回结果https：" + httpsConn.getResponseMessage());
             status = String.valueOf(httpsConn.getResponseCode());
             Utils.updateSuccessCount();
         } catch (Exception e) {
@@ -153,6 +174,7 @@ public class HttpAndHttpsProxy {
         }
 
         mapResult.put("status",status);
+        mapResult.put("header",rspHeader);
         mapResult.put("result",result);
         return mapResult;
     }
@@ -160,6 +182,7 @@ public class HttpAndHttpsProxy {
     public static Map<String,String> HttpProxy(String url,List<String> headers,byte[] body, String proxy, int port,String username,String password) {
         Map<String,String> mapResult = new HashMap<String,String>();
         String status = "";
+        String rspHeader = "";
         String result = "";
 
 
@@ -221,11 +244,30 @@ public class HttpAndHttpsProxy {
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
+                result += "\r\n";
             }
             // 断开连接
             httpConn.disconnect();
-            BurpExtender.stdout.println("====result===="+result);
-            BurpExtender.stdout.println("返回结果http：" + httpConn.getResponseMessage());
+            Map<String, List<String>> mapHeaders = httpConn.getHeaderFields();
+            for (Map.Entry<String, List<String>> entry : mapHeaders.entrySet()) {
+                String key = entry.getKey();
+                List<String> values = entry.getValue();
+                String value = "";
+                for(String v:values){
+                    value += v;
+                }
+
+                if(key == null) {
+                    String header_line = String.format("%s\r\n",value);
+                    rspHeader += header_line;
+                }else{
+                    String header_line = String.format("%s: %s\r\n", key, value);
+                    rspHeader += header_line;
+                }
+            }
+
+            //BurpExtender.stdout.println("====result===="+result);
+            //BurpExtender.stdout.println("返回结果http：" + httpConn.getResponseMessage());
             status = String.valueOf(httpConn.getResponseCode());
             Utils.updateSuccessCount();
         } catch (Exception e) {
@@ -259,6 +301,7 @@ public class HttpAndHttpsProxy {
             BurpExtender.stderr.println("[*] " + e.getMessage());
         }
         mapResult.put("status",status);
+        mapResult.put("header",rspHeader);
         mapResult.put("result",result);
         return mapResult;
     }
