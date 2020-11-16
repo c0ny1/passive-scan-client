@@ -15,6 +15,8 @@ public class GUI implements IMessageEditorController {
     private JTextField tfPort;
     private JLabel lbTimeout;
     private JTextField tfTimeout;
+    private JLabel lbIntervalTime;
+    private JTextField tfIntervalTime;
     private JLabel lbUsername;
     private JTextField tfUsername;
     private JLabel lbPassword;
@@ -62,7 +64,7 @@ public class GUI implements IMessageEditorController {
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 40, 100, 0, 39, 33, 25, 0, 0, 0 };
         gbl_panel.rowHeights = new int[] { 0, 0 };
-        gbl_panel.columnWeights = new double[] { 0.0D, 0.0D,0.0D, 0.0D,  0.0D, 0.0D,0.0D,0.0D,0.0D,0.0D,1.0D, 0.0D, 0.0D, Double.MIN_VALUE };
+        gbl_panel.columnWeights = new double[] { 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D,0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D,0.0D, Double.MIN_VALUE };
         gbl_panel.rowWeights = new double[] { 0.0D, Double.MIN_VALUE };
         ConfigPanel.setLayout(gbl_panel);
 
@@ -73,7 +75,6 @@ public class GUI implements IMessageEditorController {
         gbc_lbHost.gridx = 0;
         gbc_lbHost.gridy = 0;
         ConfigPanel.add(lbHost, gbc_lbHost);
-
 
         tfHost = new JTextField();
         tfHost.setColumns(10);
@@ -94,7 +95,7 @@ public class GUI implements IMessageEditorController {
         ConfigPanel.add(lbPort, gbc_lbPort);
 
         tfPort = new JTextField();
-        tfPort.setText("1664");
+        tfPort.setText("9898");
         tfPort.setColumns(10);
         GridBagConstraints gbc_tfPort = new GridBagConstraints();
         gbc_tfPort.fill = 2;
@@ -156,11 +157,29 @@ public class GUI implements IMessageEditorController {
         gbc_tfTimeout.gridy = 0;
         ConfigPanel.add(tfTimeout, gbc_tfTimeout);
 
+        // 增加间隔时间
+        lbIntervalTime = new JLabel("Interva lTime:");
+        GridBagConstraints gbc_lbIntervalTime = new GridBagConstraints();
+        gbc_lbIntervalTime.fill = 2;
+        gbc_lbIntervalTime.gridx = 10;
+        gbc_lbIntervalTime.gridy = 0;
+        ConfigPanel.add(lbIntervalTime, gbc_lbIntervalTime);
 
+        tfIntervalTime = new JTextField();
+        tfIntervalTime.setText("5000");
+        tfIntervalTime.setColumns(5);
+        GridBagConstraints gbc_tfIntervalTime = new GridBagConstraints();
+        gbc_tfIntervalTime.fill = 2;
+        gbc_tfIntervalTime.insets = new Insets(0, 0, 0, 5);
+        gbc_tfIntervalTime.gridx = 11;
+        gbc_tfIntervalTime.gridy = 0;
+        ConfigPanel.add(tfIntervalTime, gbc_tfIntervalTime);
+
+        
         GridBagConstraints gbc_lb1 = new GridBagConstraints();
-        gbc_lb1.anchor = 13;
+        gbc_lb1.anchor = 15;
         gbc_lb1.insets = new Insets(0, 0, 0, 5);
-        gbc_lb1.gridx = 10;
+        gbc_lb1.gridx = 12;
         gbc_lb1.gridy = 0;
         ConfigPanel.add(new JLabel(""), gbc_lb1);
 
@@ -179,6 +198,7 @@ public class GUI implements IMessageEditorController {
                     Config.PROXY_PASSWORD = tfPassword.getText();
                     Config.DOMAIN_REGX = tfDomain.getText();
                     Config.SUFFIX_REGX = tfExcludeSuffix.getText();
+                    Config.INTERVAL_TIME = Integer.valueOf(tfIntervalTime.getText());
                     setAllEnabled(false);
                 }else{
                     btnConn.setText("Run");
@@ -192,7 +212,7 @@ public class GUI implements IMessageEditorController {
         GridBagConstraints gbc_btnConn = new GridBagConstraints();
         gbc_btnConn.fill = 2;
         gbc_btnConn.insets = new Insets(0, 0, 0, 5);
-        gbc_btnConn.gridx = 11;
+        gbc_btnConn.gridx = 13;
         gbc_btnConn.gridy = 0;
         ConfigPanel.add(btnConn, gbc_btnConn);
 
@@ -220,7 +240,7 @@ public class GUI implements IMessageEditorController {
         GridBagConstraints gbc_btnClear = new GridBagConstraints();
         gbc_btnClear.fill = 2;
         gbc_btnClear.insets = new Insets(0, 0, 0, 5);
-        gbc_btnClear.gridx = 12;
+        gbc_btnClear.gridx = 14;
         gbc_btnClear.gridy = 0;
         ConfigPanel.add(btnClear, gbc_btnClear);
         ////////////////////////////////////////////////////////////////////
@@ -268,7 +288,7 @@ public class GUI implements IMessageEditorController {
         FilterPanel.add(lbExcludeSuffix, gbc_lbExcludeSuffix);
 
         tfExcludeSuffix = new JTextField(35);
-        tfExcludeSuffix.setText("js|css|jpeg|gif|jpg|png|pdf|rar|zip|docx|doc");
+        tfExcludeSuffix.setText("js|css|jpeg|gif|jpg|png|pdf|rar|zip|docx|doc|svg|jpeg|ico|woff|woff2|ttf|otf");
         GridBagConstraints gbc_tfExcludeSuffix = new GridBagConstraints();
         gbc_tfExcludeSuffix.insets = new Insets(0, 0, 0, 5);
         gbc_tfExcludeSuffix.fill = 2;
@@ -412,5 +432,6 @@ public class GUI implements IMessageEditorController {
         tfTimeout.setEnabled(is);
         tfDomain.setEnabled(is);
         tfExcludeSuffix.setEnabled(is);
+        tfIntervalTime.setEnabled(is);
     }
 }
