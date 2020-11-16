@@ -43,11 +43,10 @@ public class HttpAndHttpsProxy {
         //BurpExtender.stderr.println("[+] url: " + resInfo.getUrl());
         headers = reqInfo.getHeaders();
         url = reqInfo.getUrl().toString();
+        Thread.sleep(Config.INTERVAL_TIME);
         if(httpService.getProtocol().equals("https")){
-            Thread.sleep(Config.INTERVAL_TIME);
             return HttpsProxy(url, headers, reqbody, Config.PROXY_HOST, Config.PROXY_PORT,Config.PROXY_USERNAME,Config.PROXY_PASSWORD);
         }else {
-            Thread.sleep(Config.INTERVAL_TIME);
             return HttpProxy(url, headers, reqbody, Config.PROXY_HOST, Config.PROXY_PORT,Config.PROXY_USERNAME,Config.PROXY_PASSWORD);
         }
     }
