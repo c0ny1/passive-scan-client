@@ -11,7 +11,7 @@ import javax.swing.table.TableColumnModel;
 
 public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
     public final static String extensionName = "Passive Scan Client";
-    public final static String version ="0.1";
+    public final static String version ="0.2";
     public static IBurpExtenderCallbacks callbacks;
     public static IExtensionHelpers helpers;
     public static PrintWriter stdout;
@@ -101,7 +101,13 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
                     synchronized(log) {
                         int row = log.size();
                         String method = helpers.analyzeRequest(resrsp).getMethod();
-                        Map<String,String> mapResult = HttpAndHttpsProxy.Proxy(resrsp);
+                        Map<String, String> mapResult = null;
+                        try {
+                            mapResult = HttpAndHttpsProxy.Proxy(resrsp);
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
 
                         log.add(new LogEntry(iInterceptedProxyMessage.getMessageReference(),
                                 callbacks.saveBuffersToTempFiles(resrsp), helpers.analyzeRequest(resrsp).getUrl(),

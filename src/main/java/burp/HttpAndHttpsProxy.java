@@ -21,7 +21,7 @@ import javax.net.ssl.X509TrustManager;
 
 //https://blog.csdn.net/sbc1232123321/article/details/79334130
 public class HttpAndHttpsProxy {
-    public static Map<String,String> Proxy(IHttpRequestResponse requestResponse){
+    public static Map<String,String> Proxy(IHttpRequestResponse requestResponse) throws InterruptedException{
         byte[] req = requestResponse.getRequest();
         String url = null;
         byte[] reqbody = null;
@@ -44,8 +44,10 @@ public class HttpAndHttpsProxy {
         headers = reqInfo.getHeaders();
         url = reqInfo.getUrl().toString();
         if(httpService.getProtocol().equals("https")){
+            Thread.sleep(Config.INTERVAL_TIME);
             return HttpsProxy(url, headers, reqbody, Config.PROXY_HOST, Config.PROXY_PORT,Config.PROXY_USERNAME,Config.PROXY_PASSWORD);
         }else {
+            Thread.sleep(Config.INTERVAL_TIME);
             return HttpProxy(url, headers, reqbody, Config.PROXY_HOST, Config.PROXY_PORT,Config.PROXY_USERNAME,Config.PROXY_PASSWORD);
         }
     }
