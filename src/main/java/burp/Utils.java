@@ -20,7 +20,7 @@ public class Utils {
     }
 
     public static boolean isMathch(String regx,String str){
-        Pattern pat = Pattern.compile("[\\w]+[\\.]("+regx+")",Pattern.CASE_INSENSITIVE);//正则判断
+        Pattern pat = Pattern.compile("([\\w]+[\\.]|)("+regx+")",Pattern.CASE_INSENSITIVE);//正则判断
         Matcher mc= pat.matcher(str);//条件匹配
         if(mc.find()){
             return true;
