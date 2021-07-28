@@ -187,7 +187,7 @@ public class HttpAndHttpsProxy {
         String result = "";
 
 
-        HttpURLConnection httpConn = null;
+        HttpURLConnection httpsConn = null;
         PrintWriter out = null;
         BufferedReader in = null;
         BufferedReader reader = null;
@@ -200,14 +200,14 @@ public class HttpAndHttpsProxy {
             //创建代理
             Proxy proxy1=new Proxy(Type.HTTP, new InetSocketAddress(proxy, port));
             //设置代理
-            httpConn = (HttpURLConnection) urlClient.openConnection(proxy1);
+            httpsConn = (HttpURLConnection) urlClient.openConnection(proxy1);
 
             //设置账号密码
             if(username != null && username != "" && password != null && password != "" ) {
                 String user_pass = String.format("%s:%s", username, password);
                 String headerKey = "Proxy-Authorization";
                 String headerValue = "Basic " + Base64.encode(user_pass.getBytes());
-                httpConn.setRequestProperty(headerKey, headerValue);
+                httpsConn.setRequestProperty(headerKey, headerValue);
             }
 
 
@@ -223,7 +223,7 @@ public class HttpAndHttpsProxy {
                 String header_value = h[1].trim();
                 //BurpExtender.stdout.println("key: " + h[0].trim());
                 //BurpExtender.stdout.println("value: " + h[1].trim());
-                httpConn.setRequestProperty(header_key, header_value);
+                httpsConn.setRequestProperty(header_key, header_value);
             }
             //设置控制请求方法的Flag
             String methodFlag = "";
@@ -270,15 +270,15 @@ public class HttpAndHttpsProxy {
                 out.flush();
             }
             // 定义BufferedReader输入流来读取URL的响应
-            in = new BufferedReader(new InputStreamReader(httpConn.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(httpsConn.getInputStream()));
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
                 result += "\r\n";
             }
             // 断开连接
-            httpConn.disconnect();
-            Map<String, List<String>> mapHeaders = httpConn.getHeaderFields();
+            httpsConn.disconnect();
+            Map<String, List<String>> mapHeaders = httpsConn.getHeaderFields();
             for (Map.Entry<String, List<String>> entry : mapHeaders.entrySet()) {
                 String key = entry.getKey();
                 List<String> values = entry.getValue();
@@ -298,7 +298,7 @@ public class HttpAndHttpsProxy {
 
             //BurpExtender.stdout.println("====result===="+result);
             //BurpExtender.stdout.println("返回结果http：" + httpConn.getResponseMessage());
-            status = String.valueOf(httpConn.getResponseCode());
+            status = String.valueOf(httpsConn.getResponseCode());
             Utils.updateSuccessCount();
         } catch (Exception e) {
             //e.printStackTrace();
@@ -325,7 +325,7 @@ public class HttpAndHttpsProxy {
         }
 
         try {
-            status = String.valueOf(httpConn.getResponseCode());
+            status = String.valueOf(httpsConn.getResponseCode());
         } catch (IOException e) {
             status = e.getMessage();
             BurpExtender.stderr.println("[*] " + e.getMessage());

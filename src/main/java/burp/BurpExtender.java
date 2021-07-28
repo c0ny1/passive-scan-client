@@ -11,7 +11,7 @@ import javax.swing.table.TableColumnModel;
 
 public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
     public final static String extensionName = "Passive Scan Client";
-    public final static String version ="0.2";
+    public final static String version ="0.3.0";
     public static IBurpExtenderCallbacks callbacks;
     public static IExtensionHelpers helpers;
     public static PrintWriter stdout;
