@@ -91,7 +91,7 @@ public class HttpAndHttpsProxy {
                         header.startsWith("PUT")){
                     continue;
                 }
-                String[] h = header.split(":");
+                String[] h = header.split(": ");
                 String header_key = h[0].trim();
                 String header_value = h[1].trim();
                 httpsConn.setRequestProperty(header_key, header_value);
@@ -218,7 +218,7 @@ public class HttpAndHttpsProxy {
                         header.startsWith("PUT")){
                     continue;
                 }
-                String[] h = header.split(":");
+                String[] h = header.split(": ");
                 String header_key = h[0].trim();
                 String header_value = h[1].trim();
                 //BurpExtender.stdout.println("key: " + h[0].trim());
