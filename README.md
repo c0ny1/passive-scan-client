@@ -25,7 +25,12 @@ mvn package
 
 ![动图演示](./doc/show.gif)
 
+[Conanjun](https://github.com/Conanjun/passive-scan-client-and-sendto/commits?author=Conanjun)师傅的项目[Passive Scan Client and Sendto](https://github.com/Conanjun/passive-scan-client-and-sendto)，增加了右键手动转发的菜单，拓展了插件的灵活性，已将该功能添加到本项目中。
+
+![image-20220511142914622](README.assets/image-20220511142914622.png)
+
 ## 0x04 一些被动式漏洞扫描器
+
 * [GourdScanV2](https://github.com/ysrc/GourdScanV2)  由ysrc出品的基于sqlmapapi的被动式漏洞扫描器
 * [xray](https://github.com/chaitin/xray) 由长亭科技出品的一款被动式漏洞扫描器
 * [w13scan](https://github.com/boy-hack/w13scan) Passive Security Scanner (被动安全扫描器)

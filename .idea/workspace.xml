@@ -9,14 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="98518c03-f4c8-4d98-b46a-3983bc187b64" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/qaplug_profiles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/burp/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/burp/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/burp/HttpAndHttpsProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/burp/HttpAndHttpsProxy.java" afterDir="false" />
-    </list>
+    <list default="true" id="98518c03-f4c8-4d98-b46a-3983bc187b64" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,9 +28,7 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
         <option name="pluginUpdatePolicy" value="UPDATE" />
-        <option name="userSettingsFile" value="$USER_HOME$/software/apache-maven-3.6.0/conf/settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -367,7 +358,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.47192118" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -396,24 +387,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Test" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -442,6 +422,7 @@
       <workItem from="1570284372583" duration="720000" />
       <workItem from="1570336839115" duration="5000" />
       <workItem from="1627441664558" duration="977000" />
+      <workItem from="1652252055127" duration="805000" />
     </task>
     <servers />
   </component>
@@ -455,13 +436,29 @@
     </todo-panel>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="270" y="51" key="SettingsEditor" timestamp="1627441725837">
-      <screen x="28" y="23" width="1764" height="1097" />
+    <state width="1663" height="273" key="GridCell.Tab.0.bottom" timestamp="1652252218422">
+      <screen x="0" y="0" width="1707" height="1027" />
     </state>
-    <state x="270" y="51" key="SettingsEditor/28.23.1764.1097@28.23.1764.1097" timestamp="1627441725837" />
+    <state width="1663" height="273" key="GridCell.Tab.0.bottom/2560.0.2560.1380/0.0.1707.1027@0.0.1707.1027" timestamp="1652252218422" />
+    <state width="1663" height="273" key="GridCell.Tab.0.center" timestamp="1652252218422">
+      <screen x="0" y="0" width="1707" height="1027" />
+    </state>
+    <state width="1663" height="273" key="GridCell.Tab.0.center/2560.0.2560.1380/0.0.1707.1027@0.0.1707.1027" timestamp="1652252218422" />
+    <state width="1663" height="273" key="GridCell.Tab.0.left" timestamp="1652252218422">
+      <screen x="0" y="0" width="1707" height="1027" />
+    </state>
+    <state width="1663" height="273" key="GridCell.Tab.0.left/2560.0.2560.1380/0.0.1707.1027@0.0.1707.1027" timestamp="1652252218422" />
+    <state width="1663" height="273" key="GridCell.Tab.0.right" timestamp="1652252218422">
+      <screen x="0" y="0" width="1707" height="1027" />
+    </state>
+    <state width="1663" height="273" key="GridCell.Tab.0.right/2560.0.2560.1380/0.0.1707.1027@0.0.1707.1027" timestamp="1652252218422" />
+    <state x="334" y="88" key="SettingsEditor" timestamp="1652252216452">
+      <screen x="0" y="0" width="1707" height="1027" />
+    </state>
+    <state x="334" y="88" key="SettingsEditor/2560.0.2560.1380/0.0.1707.1027@0.0.1707.1027" timestamp="1652252216452" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
