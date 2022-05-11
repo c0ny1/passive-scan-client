@@ -1,6 +1,8 @@
 package burp;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -9,9 +11,10 @@ import javax.swing.*;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
+
+public class BurpExtender implements IBurpExtender,ITab,IProxyListener, IContextMenuFactory {
     public final static String extensionName = "Passive Scan Client";
-    public final static String version ="0.3.0";
+    public final static String version ="0.4.0";
     public static IBurpExtenderCallbacks callbacks;
     public static IExtensionHelpers helpers;
     public static PrintWriter stdout;
@@ -28,6 +31,7 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
         this.helpers = callbacks.getHelpers();
         this.stdout = new PrintWriter(callbacks.getStdout(),true);
         this.stderr = new PrintWriter(callbacks.getStderr(),true);
+        callbacks.registerContextMenuFactory(this);//必须注册右键菜单Factory
 
         callbacks.setExtensionName(extensionName + " " + version);
         BurpExtender.this.gui = new GUI();
@@ -56,6 +60,50 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
                 }
             }
         });
+    }
+
+    //callbacks.registerContextMenuFactory(this);//必须注册右键菜单Factory
+    // 实现右键 感谢原作者Conanjun
+    @Override
+    public List<JMenuItem> createMenuItems(IContextMenuInvocation invocation) {
+        final IHttpRequestResponse[] messages = invocation.getSelectedMessages();
+        JMenuItem i1 = new JMenuItem("Send to PassiveScanner");
+        i1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (final IHttpRequestResponse message : messages) {
+                    executorService.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            synchronized (log) {
+                                int row = log.size();
+                                String method = helpers.analyzeRequest(message).getMethod();
+                                byte[] req = message.getRequest();
+
+                                String req_str = new String(req);
+                                //向代理转发请求
+                                Map<String, String> mapResult = null;
+                                try {
+                                    mapResult = HttpAndHttpsProxy.Proxy(message);
+                                } catch (InterruptedException interruptedException) {
+                                    interruptedException.printStackTrace();
+                                }
+
+
+                                log.add(new LogEntry(row + 1,
+                                        callbacks.saveBuffersToTempFiles(message), helpers.analyzeRequest(message).getUrl(),
+                                        method,
+                                        mapResult)
+                                );
+                                GUI.logTable.getHttpLogTableModel().fireTableRowsInserted(row, row);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        return Arrays.asList(i1);
     }
 
 
@@ -109,7 +157,8 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
                             e.printStackTrace();
                         }
 
-                        log.add(new LogEntry(iInterceptedProxyMessage.getMessageReference(),
+                        //log.add(new LogEntry(iInterceptedProxyMessage.getMessageReference(),
+                        log.add(new LogEntry(row + 1,
                                 callbacks.saveBuffersToTempFiles(resrsp), helpers.analyzeRequest(resrsp).getUrl(),
                                 method,
                                 mapResult)
