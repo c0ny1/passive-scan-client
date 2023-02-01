@@ -15,10 +15,11 @@ public class Utils {
                         + "[+]    email:  root@gv7.me\n"
                         + "[+]    github: http://github.com/c0ny1/passive-scan-client\n"
                         + "[+] ####################################\n"
-                        + "[+] Please enjoy it!";
+                        + "[+] Please enjoy it!\n";
         return bannerInfo;
     }
 
+   // 匹配规则
     public static boolean isMathch(String regx,String str){
         Pattern pat = Pattern.compile("([\\w]+[\\.]|)("+regx+")",Pattern.CASE_INSENSITIVE);//正则判断
         Matcher mc= pat.matcher(str);//条件匹配
@@ -29,6 +30,7 @@ public class Utils {
         }
     }
 
+   // 更新成功数据
     public static void updateSuccessCount(){
         synchronized(Config.FAIL_TOTAL){
             Config.REQUEST_TOTAL++;
@@ -38,6 +40,7 @@ public class Utils {
         }
     }
 
+    // 更新失败数据
     public static void updateFailCount(){
         synchronized(Config.SUCCESS_TOTAL){
             Config.REQUEST_TOTAL++;
