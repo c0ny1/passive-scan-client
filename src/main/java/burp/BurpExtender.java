@@ -12,7 +12,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 // 插件入口
-public class BurpExtender implements IBurpExtender,ITab,IProxyListener, IContextMenuFactory {
+public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
     public final static String extensionName = "Passive Scan Client";
     public final static String version ="0.3.1";
     public static IBurpExtenderCallbacks callbacks;
@@ -34,7 +34,7 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener, IContext
         this.stderr = new PrintWriter(callbacks.getStderr(),true);
 
         //  注册菜单拓展
-        callbacks.registerContextMenuFactory(this::createMenuItems);
+        callbacks.registerContextMenuFactory(new Send2PSCMenu());
         callbacks.setExtensionName(extensionName + " " + version);
         BurpExtender.this.gui = new GUI();
         SwingUtilities.invokeLater(new Runnable() {
@@ -62,46 +62,6 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener, IContext
                 }
             }
         });
-    }
-
-    // 实现右键,需要先注册菜单拓展
-    @Override
-    public List<JMenuItem> createMenuItems(IContextMenuInvocation invocation) {
-        final IHttpRequestResponse[] messages = invocation.getSelectedMessages();
-        JMenuItem i1 = new JMenuItem("Send to PassiveScanner");
-        i1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (final IHttpRequestResponse message : messages) {
-                    executorService.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            synchronized (log) {
-                                int row = log.size();
-                                String method = helpers.analyzeRequest(message).getMethod();
-                                byte[] req = message.getRequest();
-
-                                String req_str = new String(req);
-                                //向代理转发请求
-                                Map<String, String> mapResult = null;
-                                try {
-                                    mapResult = HttpAndHttpsProxy.Proxy(message);
-                                } catch (InterruptedException ex) {
-                                    ex.printStackTrace();
-                                }
-                                log.add(new LogEntry(row + 1,
-                                        callbacks.saveBuffersToTempFiles(message), helpers.analyzeRequest(message).getUrl(),
-                                        method,
-                                        mapResult)
-                                );
-                                GUI.logTable.getHttpLogTableModel().fireTableRowsInserted(row, row);
-                            }
-                        }
-                    });
-                }
-            }
-        });
-        return Arrays.asList(i1);
     }
 
     //
@@ -154,7 +114,6 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener, IContext
                         try {
                             mapResult = HttpAndHttpsProxy.Proxy(resrsp);
                         } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
 
@@ -167,6 +126,49 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener, IContext
                     }
                 }
             });
+        }
+    }
+
+
+    // 实现右键,需要先注册菜单拓展
+    public class Send2PSCMenu implements IContextMenuFactory{
+        @Override
+        public List<JMenuItem> createMenuItems(IContextMenuInvocation invocation) {
+            final IHttpRequestResponse[] messages = invocation.getSelectedMessages();
+            JMenuItem i1 = new JMenuItem("Send to Passive Scan Client");
+            i1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    for (final IHttpRequestResponse message : messages) {
+                        executorService.submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                synchronized (log) {
+                                    int row = log.size();
+                                    String method = helpers.analyzeRequest(message).getMethod();
+                                    byte[] req = message.getRequest();
+
+                                    String req_str = new String(req);
+                                    //向代理转发请求
+                                    Map<String, String> mapResult = null;
+                                    try {
+                                        mapResult = HttpAndHttpsProxy.Proxy(message);
+                                    } catch (InterruptedException ex) {
+                                        ex.printStackTrace();
+                                    }
+                                    log.add(new LogEntry(row + 1,
+                                            callbacks.saveBuffersToTempFiles(message), helpers.analyzeRequest(message).getUrl(),
+                                            method,
+                                            mapResult)
+                                    );
+                                    GUI.logTable.getHttpLogTableModel().fireTableRowsInserted(row, row);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            return Arrays.asList(i1);
         }
     }
 }
