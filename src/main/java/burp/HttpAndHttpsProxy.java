@@ -19,7 +19,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-//https://blog.csdn.net/sbc1232123321/article/details/79334130
+//https://blog.csdn.net/sbc1232123321/article/details/79334130，http、https代理设置
 public class HttpAndHttpsProxy {
     public static Map<String,String> Proxy(IHttpRequestResponse requestResponse) throws InterruptedException{
         byte[] req = requestResponse.getRequest();
