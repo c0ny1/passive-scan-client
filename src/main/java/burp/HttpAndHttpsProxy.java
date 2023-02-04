@@ -75,7 +75,7 @@ public class HttpAndHttpsProxy {
             httpsConn = (HttpsURLConnection) urlClient.openConnection(proxy1);
 
             //设置账号密码
-            if(username != null && username != "" && password != null && password != "" ) {
+            if(username != null && username == "" && password == null && password != "" ) {
                 String user_pass = String.format("%s:%s", username, password);
                 String headerKey = "Proxy-Authorization";
                 String headerValue = "Basic " + Base64.encode(user_pass.getBytes());
