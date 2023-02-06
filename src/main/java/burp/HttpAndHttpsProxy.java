@@ -85,31 +85,50 @@ public class HttpAndHttpsProxy {
             httpsConn.setSSLSocketFactory(sc.getSocketFactory());
             httpsConn.setHostnameVerifier(new TrustAnyHostnameVerifier());
             // 设置通用的请求属性
+            //设置控制请求方法的Flag
+            String methodFlag = "";
+            // 设置通用的请求属性
             for(String header:headers){
                 if(header.startsWith("GET") ||
                         header.startsWith("POST") ||
                         header.startsWith("PUT")){
+                    if(header.startsWith("GET")){
+                        methodFlag = "GET";
+                    }
+                    else if(header.startsWith("POST")||
+                            header.startsWith("PUT")){
+                        methodFlag = "POST";
+                    }//在循环中重复设置了methodFlag，代码非常的丑陋冗余，请见谅
                     continue;
-                }
-                String[] h = header.split(":");
+                }//判断结束后以键值对的方式获取header
+                String[] h = header.split(": ");
                 String header_key = h[0].trim();
                 String header_value = h[1].trim();
                 httpsConn.setRequestProperty(header_key, header_value);
             }
-            // 发送POST请求必须设置如下两行
-            httpsConn.setDoOutput(true);
-            httpsConn.setDoInput(true);
 
+            if (methodFlag.equals("GET")){
+                // 发送GET请求必须设置如下两行
+                httpsConn.setDoOutput(false);
+                httpsConn.setDoInput(true);
 
-            // 获取URLConnection对象对应的输出流
-            out = new PrintWriter(httpsConn.getOutputStream());
-
-            if(body != null) {
-                // 发送请求参数
-                out.print(new String(body));
+                // 获取URLConnection对象的连接
+                httpsConn.connect();
             }
-            // flush输出流的缓冲
-            out.flush();
+            else if(methodFlag.equals("POST")){
+                // 发送POST请求必须设置如下两行
+                httpsConn.setDoOutput(true);
+                httpsConn.setDoInput(true);
+
+                // 获取URLConnection对象对应的输出流
+                out = new PrintWriter(httpsConn.getOutputStream());
+                if(body != null) {
+                    // 发送请求参数
+                    out.print(new String(body));
+                }
+                // flush输出流的缓冲
+                out.flush();
+            }
             // 定义BufferedReader输入流来读取URL的响应
             in = new BufferedReader(
                     new InputStreamReader(httpsConn.getInputStream()));
@@ -211,20 +230,20 @@ public class HttpAndHttpsProxy {
             }
 
 
-            // 设置通用的请求属性
-            for(String header:headers){
-                if(header.startsWith("GET") ||
-                        header.startsWith("POST") ||
-                        header.startsWith("PUT")){
-                    continue;
-                }
-                String[] h = header.split(":");
-                String header_key = h[0].trim();
-                String header_value = h[1].trim();
-                //BurpExtender.stdout.println("key: " + h[0].trim());
-                //BurpExtender.stdout.println("value: " + h[1].trim());
-                httpsConn.setRequestProperty(header_key, header_value);
-            }
+//            // 设置通用的请求属性
+//            for(String header:headers){
+//                if(header.startsWith("GET") ||
+//                        header.startsWith("POST") ||
+//                        header.startsWith("PUT")){
+//                    continue;
+//                }
+//                String[] h = header.split(": ");
+//                String header_key = h[0].trim();
+//                String header_value = h[1].trim();
+//                //BurpExtender.stdout.println("key: " + h[0].trim());
+//                //BurpExtender.stdout.println("value: " + h[1].trim());
+//                httpsConn.setRequestProperty(header_key, header_value);
+//            }
             //设置控制请求方法的Flag
             String methodFlag = "";
             // 设置通用的请求属性
@@ -241,7 +260,7 @@ public class HttpAndHttpsProxy {
                     }//在循环中重复设置了methodFlag，代码非常的丑陋冗余，请见谅
                     continue;
                 }//判断结束后以键值对的方式获取header
-                String[] h = header.split(":");
+                String[] h = header.split(": ");
                 String header_key = h[0].trim();
                 String header_value = h[1].trim();
                 httpsConn.setRequestProperty(header_key, header_value);
