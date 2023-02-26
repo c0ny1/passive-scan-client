@@ -19,7 +19,7 @@ public class HttpLogTable extends JTable {
     @Override
     public void changeSelection(int row, int col, boolean toggle, boolean extend) {
         super.changeSelection(row, col, toggle, extend);
-        // show the log entry for the selected row
+        //show the log entry for the selected row
         LogEntry logEntry = BurpExtender.log.get(row);
         GUI.requestViewer.setMessage(logEntry.requestResponse.getRequest(), true);
         GUI.responseViewer.setMessage(logEntry.requestResponse.getResponse(), false);
