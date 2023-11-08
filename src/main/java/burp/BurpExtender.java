@@ -12,9 +12,9 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 // 插件入口
-public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
+public class BurpExtender implements IBurpExtender,ITab,IHttpListener {
     public final static String extensionName = "Passive Scan Client";
-    public final static String version ="0.3.1";
+    public final static String version ="0.4.0";
     public static IBurpExtenderCallbacks callbacks;
     public static IExtensionHelpers helpers;
     public static PrintWriter stdout;
@@ -24,7 +24,7 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
     public static BurpExtender burpExtender;
     private ExecutorService executorService;
 
-    //    通过参数 callbacks 可以获得核心基础库，例如日志、请求、返回值修改等
+    // 通过参数 callbacks 可以获得核心基础库，例如日志、请求、返回值修改等
     @Override
     public void registerExtenderCallbacks(IBurpExtenderCallbacks callbacks) {
         this.burpExtender = this;
@@ -40,7 +40,7 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 BurpExtender.this.callbacks.addSuiteTab(BurpExtender.this);
-                BurpExtender.this.callbacks.registerProxyListener(BurpExtender.this);
+                BurpExtender.this.callbacks.registerHttpListener(BurpExtender.this);
                 stdout.println(Utils.getBanner());
             }
         });
@@ -78,57 +78,153 @@ public class BurpExtender implements IBurpExtender,ITab,IProxyListener {
         return gui.getComponet();
     }
 
-//    IHttpRequestResponse 接口包含了每个请求和响应的细节，在 brupsuite 中的每个请求或者响应都是 IHttpRequestResponse 实例。通过 getRequest()可以获取请求和响应的细节信息。
-    public void processProxyMessage(boolean messageIsRequest, final IInterceptedProxyMessage iInterceptedProxyMessage) {
-        if (!messageIsRequest && Config.IS_RUNNING) {
-            IHttpRequestResponse reprsp = iInterceptedProxyMessage.getMessageInfo();
-            IHttpService httpService = reprsp.getHttpService();
-            String host = reprsp.getHttpService().getHost();
-            //stdout.println(Config.DOMAIN_REGX);
-            if(Config.DOMAIN_REGX!="" && !Utils.isMathch(Config.DOMAIN_REGX,host)){
-                return;
-            }
-
-            String  url = helpers.analyzeRequest(httpService,reprsp.getRequest()).getUrl().toString();
-            String url2 = url;
-            url = url.indexOf("?") > 0 ? url.substring(0, url.indexOf("?")) : url;
-            if(Config.SUFFIX_REGX!="" && Utils.isMathch(Config.SUFFIX_REGX,url)){
-                return;
-            }
-            if(Config.BLACKLIST_REGX!="" && Utils.isMathch(Config.BLACKLIST_REGX,url2)){
-                return;
-            }
-
-            final IHttpRequestResponse resrsp = iInterceptedProxyMessage.getMessageInfo();
-
-            //final LogEntry logEntry = new LogEntry(1,callbacks.saveBuffersToTempFiles(iInterceptedProxyMessage.getMessageInfo()),helpers.analyzeRequest(resrsp).getUrl());
-
-            // create a new log entry with the message details
-            executorService.submit(new Runnable() {
-                @Override
-                public void run() {
-                    synchronized(log) {
-                        int row = log.size();
-                        String method = helpers.analyzeRequest(resrsp).getMethod();
-                        Map<String, String> mapResult = null;
-                        try {
-                            mapResult = HttpAndHttpsProxy.Proxy(resrsp);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                        log.add(new LogEntry(iInterceptedProxyMessage.getMessageReference(),
-                                callbacks.saveBuffersToTempFiles(resrsp), helpers.analyzeRequest(resrsp).getUrl(),
-                                method,
-                                mapResult)
-                        );
-                        GUI.logTable.getHttpLogTableModel().fireTableRowsInserted(row, row);
-                    }
+    @Override
+    public void processHttpMessage(int toolFlag, boolean messageIsRequest, IHttpRequestResponse messageInfo) {
+        // 插件开启
+        if (Config.IS_RUNNING && !messageIsRequest) {
+            // 开启监控 Proxy，并且该消息是 Proxy 模块的
+            if(Config.PROXY && toolFlag == IBurpExtenderCallbacks.TOOL_PROXY) {
+                IHttpService httpService = messageInfo.getHttpService();
+                String host = messageInfo.getHttpService().getHost();
+                //stdout.println(Config.DOMAIN_REGX);
+                if(Config.DOMAIN_REGX.isEmpty() && !Utils.isMathch(Config.DOMAIN_REGX,host)){
+                    return;
                 }
-            });
+
+                String  url = helpers.analyzeRequest(httpService,messageInfo.getRequest()).getUrl().toString();
+                String url2 = url;
+                url = url.indexOf("?") > 0 ? url.substring(0, url.indexOf("?")) : url;
+                if(!Config.SUFFIX_REGX.isEmpty() && Utils.isMathch(Config.SUFFIX_REGX,url)){
+                    return;
+                }
+                if(!Config.BLACKLIST_REGX.isEmpty() && Utils.isMathch(Config.BLACKLIST_REGX,url2)){
+                    return;
+                }
+
+                final IHttpRequestResponse resrsp = messageInfo;
+
+                //final LogEntry logEntry = new LogEntry(1,callbacks.saveBuffersToTempFiles(iInterceptedProxyMessage.getMessageInfo()),helpers.analyzeRequest(resrsp).getUrl());
+
+                // create a new log entry with the message details
+                executorService.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        synchronized(log) {
+                            int row = log.size();
+                            String method = helpers.analyzeRequest(resrsp).getMethod();
+                            Map<String, String> mapResult = null;
+                            try {
+                                mapResult = HttpAndHttpsProxy.Proxy(resrsp);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            log.add(new LogEntry(row,
+                                    callbacks.saveBuffersToTempFiles(resrsp), helpers.analyzeRequest(resrsp).getUrl(),
+                                    method,
+                                    mapResult)
+                            );
+                            GUI.logTable.getHttpLogTableModel().fireTableRowsInserted(row, row);
+                        }
+                    }
+                });
+            }
+
+            else if(Config.REPEATER && toolFlag == IBurpExtenderCallbacks.TOOL_REPEATER) {
+                IHttpService httpService = messageInfo.getHttpService();
+                String host = messageInfo.getHttpService().getHost();
+                //stdout.println(Config.DOMAIN_REGX);
+                if(Config.DOMAIN_REGX.isEmpty() && !Utils.isMathch(Config.DOMAIN_REGX,host)){
+                    return;
+                }
+
+                String  url = helpers.analyzeRequest(httpService,messageInfo.getRequest()).getUrl().toString();
+                String url2 = url;
+                url = url.indexOf("?") > 0 ? url.substring(0, url.indexOf("?")) : url;
+                if(!Config.SUFFIX_REGX.isEmpty() && Utils.isMathch(Config.SUFFIX_REGX,url)){
+                    return;
+                }
+                if(!Config.BLACKLIST_REGX.isEmpty() && Utils.isMathch(Config.BLACKLIST_REGX,url2)){
+                    return;
+                }
+
+                final IHttpRequestResponse resrsp = messageInfo;
+
+                //final LogEntry logEntry = new LogEntry(1,callbacks.saveBuffersToTempFiles(iInterceptedProxyMessage.getMessageInfo()),helpers.analyzeRequest(resrsp).getUrl());
+
+                // create a new log entry with the message details
+                executorService.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        synchronized(log) {
+                            int row = log.size();
+                            String method = helpers.analyzeRequest(resrsp).getMethod();
+                            Map<String, String> mapResult = null;
+                            try {
+                                mapResult = HttpAndHttpsProxy.Proxy(resrsp);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            log.add(new LogEntry(row,
+                                    callbacks.saveBuffersToTempFiles(resrsp), helpers.analyzeRequest(resrsp).getUrl(),
+                                    method,
+                                    mapResult)
+                            );
+                            GUI.logTable.getHttpLogTableModel().fireTableRowsInserted(row, row);
+                        }
+                    }
+                });
+            }
+
+            else if(Config.INTRUDER && toolFlag == IBurpExtenderCallbacks.TOOL_INTRUDER) {
+                IHttpService httpService = messageInfo.getHttpService();
+                String host = messageInfo.getHttpService().getHost();
+                //stdout.println(Config.DOMAIN_REGX);
+                if(Config.DOMAIN_REGX.isEmpty() && !Utils.isMathch(Config.DOMAIN_REGX,host)){
+                    return;
+                }
+
+                String  url = helpers.analyzeRequest(httpService,messageInfo.getRequest()).getUrl().toString();
+                String url2 = url;
+                url = url.indexOf("?") > 0 ? url.substring(0, url.indexOf("?")) : url;
+                if(!Config.SUFFIX_REGX.isEmpty() && Utils.isMathch(Config.SUFFIX_REGX,url)){
+                    return;
+                }
+                if(!Config.BLACKLIST_REGX.isEmpty() && Utils.isMathch(Config.BLACKLIST_REGX,url2)){
+                    return;
+                }
+
+                final IHttpRequestResponse resrsp = messageInfo;
+
+                //final LogEntry logEntry = new LogEntry(1,callbacks.saveBuffersToTempFiles(iInterceptedProxyMessage.getMessageInfo()),helpers.analyzeRequest(resrsp).getUrl());
+
+                // create a new log entry with the message details
+                executorService.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        synchronized(log) {
+                            int row = log.size();
+                            String method = helpers.analyzeRequest(resrsp).getMethod();
+                            Map<String, String> mapResult = null;
+                            try {
+                                mapResult = HttpAndHttpsProxy.Proxy(resrsp);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            log.add(new LogEntry(row,
+                                    callbacks.saveBuffersToTempFiles(resrsp), helpers.analyzeRequest(resrsp).getUrl(),
+                                    method,
+                                    mapResult)
+                            );
+                            GUI.logTable.getHttpLogTableModel().fireTableRowsInserted(row, row);
+                        }
+                    }
+                });
+            }
         }
     }
-
 
     // 实现右键,需要先注册菜单拓展
     public class Send2PSCMenu implements IContextMenuFactory{

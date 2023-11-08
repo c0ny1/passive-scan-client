@@ -7,6 +7,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.Proxy.Type;
+import java.nio.charset.StandardCharsets;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
@@ -33,25 +34,22 @@ public class HttpAndHttpsProxy {
         if(reqInfo.getMethod().equals("POST")){
             int bodyOffset = reqInfo.getBodyOffset();
             String body = null;
-            try {
-                body = new String(req, bodyOffset, req.length - bodyOffset, "UTF-8");
-                reqbody = body.getBytes("UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            body = new String(req, bodyOffset, req.length - bodyOffset, StandardCharsets.UTF_8);
+            reqbody = body.getBytes(StandardCharsets.UTF_8);
         }
         //BurpExtender.stderr.println("[+] url: " + resInfo.getUrl());
         headers = reqInfo.getHeaders();
         url = reqInfo.getUrl().toString();
+        // 间隔时间默认太长了，修改默认为 100ms
         Thread.sleep(Config.INTERVAL_TIME);
         if(httpService.getProtocol().equals("https")){
-            return HttpsProxy(url, headers, reqbody, Config.PROXY_HOST, Config.PROXY_PORT,Config.PROXY_USERNAME,Config.PROXY_PASSWORD);
+            return HttpsProxy(url, headers, reqbody);
         }else {
-            return HttpProxy(url, headers, reqbody, Config.PROXY_HOST, Config.PROXY_PORT,Config.PROXY_USERNAME,Config.PROXY_PASSWORD);
+            return HttpProxy(url, headers, reqbody);
         }
     }
 
-    public static Map<String,String> HttpsProxy(String url, List<String> headers,byte[] body, String proxy, int port,String username,String password){
+    public static Map<String,String> HttpsProxy(String url, List<String> headers,byte[] body){
         Map<String,String> mapResult = new HashMap<String,String>();
         String status = "";
         String rspHeader = "";
@@ -60,26 +58,23 @@ public class HttpAndHttpsProxy {
         HttpsURLConnection httpsConn = null;
         PrintWriter out = null;
         BufferedReader in = null;
-
         BufferedReader reader = null;
 
         try {
-
             URL urlClient = new URL(url);
             SSLContext sc = SSLContext.getInstance("SSL");
             // 指定信任https
             sc.init(null, new TrustManager[] { new TrustAnyTrustManager() }, new java.security.SecureRandom());
             //创建代理虽然是https也是Type.HTTP
-            Proxy proxy1=new Proxy(Type.HTTP, new InetSocketAddress(proxy, port));
+            Proxy proxy1=new Proxy(Type.HTTP, new InetSocketAddress(Config.PROXY_HOST, Config.PROXY_PORT));
             //设置代理
             httpsConn = (HttpsURLConnection) urlClient.openConnection(proxy1);
 
-            //设置账号密码
-            if(username != null && username != "" && password != null && password != "" ) {
-                String user_pass = String.format("%s:%s", username, password);
-                String headerKey = "Proxy-Authorization";
+            //设置账号密码 使用 isEmpty() 来判断，
+            if(Config.PROXY_USERNAME != null && !Config.PROXY_USERNAME.isEmpty() && Config.PROXY_PASSWORD != null && !Config.PROXY_PASSWORD.isEmpty() ) {
+                String user_pass = String.format("%s:%s", Config.PROXY_USERNAME, Config.PROXY_PASSWORD);
                 String headerValue = "Basic " + Base64.encode(user_pass.getBytes());
-                httpsConn.setRequestProperty(headerKey, headerValue);
+                httpsConn.setRequestProperty(Config.PROXY_BASIC_HEADER, headerValue);
             }
 
             httpsConn.setSSLSocketFactory(sc.getSocketFactory());
@@ -91,7 +86,8 @@ public class HttpAndHttpsProxy {
                         header.startsWith("PUT")){
                     continue;
                 }
-                String[] h = header.split(":");
+                // https://github.com/c0ny1/passive-scan-client/pull/21
+                String[] h = header.split(": ");
                 String header_key = h[0].trim();
                 String header_value = h[1].trim();
                 httpsConn.setRequestProperty(header_key, header_value);
@@ -180,7 +176,7 @@ public class HttpAndHttpsProxy {
         return mapResult;
     }
 
-    public static Map<String,String> HttpProxy(String url,List<String> headers,byte[] body, String proxy, int port,String username,String password) {
+    public static Map<String,String> HttpProxy(String url,List<String> headers,byte[] body) {
         Map<String,String> mapResult = new HashMap<String,String>();
         String status = "";
         String rspHeader = "";
@@ -198,16 +194,15 @@ public class HttpAndHttpsProxy {
             sc.init(null, new TrustManager[] { new TrustAnyTrustManager() }, new java.security.SecureRandom());
 
             //创建代理
-            Proxy proxy1=new Proxy(Type.HTTP, new InetSocketAddress(proxy, port));
+            Proxy proxy1=new Proxy(Type.HTTP, new InetSocketAddress(Config.PROXY_HOST, Config.PROXY_PORT));
             //设置代理
             httpsConn = (HttpURLConnection) urlClient.openConnection(proxy1);
 
             //设置账号密码
-            if(username != null && username != "" && password != null && password != "" ) {
-                String user_pass = String.format("%s:%s", username, password);
-                String headerKey = "Proxy-Authorization";
+            if(Config.PROXY_USERNAME != null && !Config.PROXY_USERNAME.isEmpty() && Config.PROXY_PASSWORD != null && !Config.PROXY_PASSWORD.isEmpty() ) {
+                String user_pass = String.format("%s:%s", Config.PROXY_USERNAME, Config.PROXY_PASSWORD);
                 String headerValue = "Basic " + Base64.encode(user_pass.getBytes());
-                httpsConn.setRequestProperty(headerKey, headerValue);
+                httpsConn.setRequestProperty(Config.PROXY_BASIC_HEADER, headerValue);
             }
 
 
@@ -218,7 +213,8 @@ public class HttpAndHttpsProxy {
                         header.startsWith("PUT")){
                     continue;
                 }
-                String[] h = header.split(":");
+                // https://github.com/c0ny1/passive-scan-client/pull/21
+                String[] h = header.split(": ");
                 String header_key = h[0].trim();
                 String header_value = h[1].trim();
                 //BurpExtender.stdout.println("key: " + h[0].trim());
@@ -241,7 +237,8 @@ public class HttpAndHttpsProxy {
                     }//在循环中重复设置了methodFlag，代码非常的丑陋冗余，请见谅
                     continue;
                 }//判断结束后以键值对的方式获取header
-                String[] h = header.split(":");
+                // https://github.com/c0ny1/passive-scan-client/pull/21
+                String[] h = header.split(": ");
                 String header_key = h[0].trim();
                 String header_value = h[1].trim();
                 httpsConn.setRequestProperty(header_key, header_value);
@@ -311,13 +308,18 @@ public class HttpAndHttpsProxy {
                     reader.close();
                 }
             } catch (IOException e) {
+                BurpExtender.stderr.println("[*] " + e.getMessage());
+                result = e.getMessage();
+                Utils.updateFailCount();
             }
             try {
                 if (in != null) {
                     in.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                BurpExtender.stderr.println("[*] " + e.getMessage());
+                result = e.getMessage();
+                Utils.updateFailCount();
             }
             if (out != null) {
                 out.close();

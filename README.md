@@ -13,6 +13,17 @@ Q3: ......
 
 ![流程图](./doc/process.png)
 
+配置参数
+- Host、port 指定被动扫描器地址
+- Username、Password、Header 为被动扫描器的 Basic 认证相关
+- Timeout 指流量代理到被动扫描器的访问超时时间
+- Interval Time 指获取的每个流量直接转发给被动扫描器的间隔时间
+- BlackList 不转发的黑名单域名
+- Domain 限制只转发的域名
+- Exclude suffix 限制转发的流量后缀(ps:插件默认设置了 js、css不转发，但对于被动来说这一块还是要进行敏感信息匹配的)
+- Proxy、Repeater、Intruder 要转发流量的模块，默认只转发 Proxy 模块的流量
+效果图
+![效果图.png](doc/img.png)
 ## 0x02 插件编译
 
 ```
