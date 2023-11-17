@@ -1,6 +1,5 @@
 package burp;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
@@ -13,6 +12,7 @@ import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Base64;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -71,9 +71,9 @@ public class HttpAndHttpsProxy {
             httpsConn = (HttpsURLConnection) urlClient.openConnection(proxy1);
 
             //设置账号密码 使用 isEmpty() 来判断，
-            if(Config.PROXY_USERNAME != null && !Config.PROXY_USERNAME.isEmpty() && Config.PROXY_PASSWORD != null && !Config.PROXY_PASSWORD.isEmpty() ) {
+            if(Config.PROXY_USERNAME != null && !Config.PROXY_USERNAME.isEmpty() && Config.PROXY_PASSWORD != null && !Config.PROXY_PASSWORD.isEmpty()) {
                 String user_pass = String.format("%s:%s", Config.PROXY_USERNAME, Config.PROXY_PASSWORD);
-                String headerValue = "Basic " + Base64.encode(user_pass.getBytes());
+                String headerValue = "Basic " + Base64.getEncoder().encodeToString(user_pass.getBytes());
                 httpsConn.setRequestProperty(Config.PROXY_BASIC_HEADER, headerValue);
             }
 
@@ -201,7 +201,7 @@ public class HttpAndHttpsProxy {
             //设置账号密码
             if(Config.PROXY_USERNAME != null && !Config.PROXY_USERNAME.isEmpty() && Config.PROXY_PASSWORD != null && !Config.PROXY_PASSWORD.isEmpty() ) {
                 String user_pass = String.format("%s:%s", Config.PROXY_USERNAME, Config.PROXY_PASSWORD);
-                String headerValue = "Basic " + Base64.encode(user_pass.getBytes());
+                String headerValue = "Basic " + Base64.getEncoder().encodeToString(user_pass.getBytes());
                 httpsConn.setRequestProperty(Config.PROXY_BASIC_HEADER, headerValue);
             }
 

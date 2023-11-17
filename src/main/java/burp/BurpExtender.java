@@ -252,7 +252,7 @@ public class BurpExtender implements IBurpExtender,ITab,IHttpListener {
                                     } catch (InterruptedException ex) {
                                         ex.printStackTrace();
                                     }
-                                    log.add(new LogEntry(row + 1,
+                                    log.add(new LogEntry(row,
                                             callbacks.saveBuffersToTempFiles(message), helpers.analyzeRequest(message).getUrl(),
                                             method,
                                             mapResult)

@@ -9,8 +9,6 @@
         <module name="passive-scan-client" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="7">
-      <module name="passive-scan-client" target="1.7" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="7" />
   </component>
 </project>
