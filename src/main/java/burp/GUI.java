@@ -203,7 +203,7 @@ public class GUI implements IMessageEditorController {
                     btnConn.setText("Stop");
                     Config.IS_RUNNING = true;
                     Config.PROXY_HOST = tfHost.getText();
-                    Config.PROXY_PORT = Integer.valueOf(tfPort.getText());
+                    Config.PROXY_PORT = tfPort.getText();
                     Config.PROXY_TIMEOUT = Integer.valueOf(tfTimeout.getText());
                     Config.PROXY_USERNAME = tfUsername.getText();
                     Config.PROXY_PASSWORD = tfPassword.getText();

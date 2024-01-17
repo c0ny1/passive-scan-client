@@ -22,6 +22,14 @@ Q3: ......
 - Domain 限制只转发的域名
 - Exclude suffix 限制转发的流量后缀(ps:插件默认设置了 js、css不转发，但对于被动来说这一块还是要进行敏感信息匹配的)
 - Proxy、Repeater、Intruder 要转发流量的模块，默认只转发 Proxy 模块的流量
+
+如果想要转发到多个扫描器，host，port，Username、Pasword、Header 输入中分别以 `,` 分割,并且一一对应
+比如 
+    Host 中 输入 127.0.0.1,192.168.1.1
+    Port 中 输入 9081,9082
+这样就会将流量分别转发到 `127.0.0.1:9081` 和 `192.168.1.1:9082`
+
+
 效果图
 ![效果图.png](doc/img.png)
 ## 0x02 插件编译
@@ -37,6 +45,7 @@ mvn package
 ![动图演示](./doc/show.gif)
 
 ## 0x04 一些被动式漏洞扫描器
+* [Jie](https://github.com/yhy0/Jie) 一款开源的全面而强大的漏洞扫描和利用工具。
 * [GourdScanV2](https://github.com/ysrc/GourdScanV2)  由ysrc出品的基于sqlmapapi的被动式漏洞扫描器
 * [xray](https://github.com/chaitin/xray) 由长亭科技出品的一款被动式漏洞扫描器
 * [w13scan](https://github.com/boy-hack/w13scan) Passive Security Scanner (被动安全扫描器)

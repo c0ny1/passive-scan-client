@@ -22,7 +22,7 @@ import javax.net.ssl.X509TrustManager;
 
 //https://blog.csdn.net/sbc1232123321/article/details/79334130，http、https代理设置
 public class HttpAndHttpsProxy {
-    public static Map<String,String> Proxy(IHttpRequestResponse requestResponse) throws InterruptedException{
+    public static Map<String,String> Proxy(IHttpRequestResponse requestResponse, String proxy_host, String proxy_port, String proxy_username,String proxy_pwd,String proxy_header) throws InterruptedException{
         byte[] req = requestResponse.getRequest();
         String url = null;
         byte[] reqbody = null;
@@ -43,13 +43,14 @@ public class HttpAndHttpsProxy {
         // 间隔时间默认太长了，修改默认为 100ms
         Thread.sleep(Config.INTERVAL_TIME);
         if(httpService.getProtocol().equals("https")){
-            return HttpsProxy(url, headers, reqbody);
+            return HttpsProxy(url, headers, reqbody, proxy_host, proxy_port, proxy_username, proxy_pwd, proxy_header);
         }else {
-            return HttpProxy(url, headers, reqbody);
+            return HttpProxy(url, headers, reqbody, proxy_host, proxy_port, proxy_username, proxy_pwd, proxy_header);
         }
+
     }
 
-    public static Map<String,String> HttpsProxy(String url, List<String> headers,byte[] body){
+    public static Map<String,String> HttpsProxy(String url, List<String> headers,byte[] body, String proxy_host, String proxy_port, String proxy_username,String proxy_pwd,String proxy_header){
         Map<String,String> mapResult = new HashMap<String,String>();
         String status = "";
         String rspHeader = "";
@@ -66,15 +67,15 @@ public class HttpAndHttpsProxy {
             // 指定信任https
             sc.init(null, new TrustManager[] { new TrustAnyTrustManager() }, new java.security.SecureRandom());
             //创建代理虽然是https也是Type.HTTP
-            Proxy proxy1=new Proxy(Type.HTTP, new InetSocketAddress(Config.PROXY_HOST, Config.PROXY_PORT));
+            Proxy proxy1=new Proxy(Type.HTTP, new InetSocketAddress(proxy_host, Integer.parseInt(proxy_port)));
             //设置代理
             httpsConn = (HttpsURLConnection) urlClient.openConnection(proxy1);
 
             //设置账号密码 使用 isEmpty() 来判断，
-            if(Config.PROXY_USERNAME != null && !Config.PROXY_USERNAME.isEmpty() && Config.PROXY_PASSWORD != null && !Config.PROXY_PASSWORD.isEmpty()) {
-                String user_pass = String.format("%s:%s", Config.PROXY_USERNAME, Config.PROXY_PASSWORD);
+            if(proxy_username != null && !proxy_username.isEmpty() && proxy_pwd != null && !proxy_pwd.isEmpty()) {
+                String user_pass = String.format("%s:%s", proxy_username, proxy_pwd);
                 String headerValue = "Basic " + Base64.getEncoder().encodeToString(user_pass.getBytes());
-                httpsConn.setRequestProperty(Config.PROXY_BASIC_HEADER, headerValue);
+                httpsConn.setRequestProperty(proxy_header, headerValue);
             }
 
             httpsConn.setSSLSocketFactory(sc.getSocketFactory());
@@ -176,7 +177,7 @@ public class HttpAndHttpsProxy {
         return mapResult;
     }
 
-    public static Map<String,String> HttpProxy(String url,List<String> headers,byte[] body) {
+    public static Map<String,String> HttpProxy(String url,List<String> headers,byte[] body, String proxy_host, String proxy_port, String proxy_username,String proxy_pwd,String proxy_header){
         Map<String,String> mapResult = new HashMap<String,String>();
         String status = "";
         String rspHeader = "";
@@ -194,15 +195,15 @@ public class HttpAndHttpsProxy {
             sc.init(null, new TrustManager[] { new TrustAnyTrustManager() }, new java.security.SecureRandom());
 
             //创建代理
-            Proxy proxy1=new Proxy(Type.HTTP, new InetSocketAddress(Config.PROXY_HOST, Config.PROXY_PORT));
+            Proxy proxy1=new Proxy(Type.HTTP, new InetSocketAddress(proxy_host, Integer.parseInt(proxy_port)));
             //设置代理
             httpsConn = (HttpURLConnection) urlClient.openConnection(proxy1);
 
-            //设置账号密码
-            if(Config.PROXY_USERNAME != null && !Config.PROXY_USERNAME.isEmpty() && Config.PROXY_PASSWORD != null && !Config.PROXY_PASSWORD.isEmpty() ) {
-                String user_pass = String.format("%s:%s", Config.PROXY_USERNAME, Config.PROXY_PASSWORD);
+            //设置账号密码 使用 isEmpty() 来判断，
+            if(proxy_username != null && !proxy_username.isEmpty() && proxy_pwd != null && !proxy_pwd.isEmpty()) {
+                String user_pass = String.format("%s:%s", proxy_username, proxy_pwd);
                 String headerValue = "Basic " + Base64.getEncoder().encodeToString(user_pass.getBytes());
-                httpsConn.setRequestProperty(Config.PROXY_BASIC_HEADER, headerValue);
+                httpsConn.setRequestProperty(proxy_header, headerValue);
             }
 
 
