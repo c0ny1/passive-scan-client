@@ -11,11 +11,14 @@
   <component name="ChangeListManager">
     <list default="true" id="98518c03-f4c8-4d98-b46a-3983bc187b64" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/passive-scan-client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/passive-scan-client.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/burp/BurpExtender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/burp/BurpExtender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/burp/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/burp/Config.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/burp/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/burp/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/burp/HttpAndHttpsProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/burp/HttpAndHttpsProxy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/burp/HttpLogTableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/burp/HttpLogTableModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/burp/LogEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/burp/LogEntry.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,15 +38,20 @@
   <component name="MacroExpansionManager">
     <option name="directoryName" value="drhd52m9" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
-        <option name="pluginUpdatePolicy" value="UPDATE" />
         <option name="userSettingsFile" value="$USER_HOME$/software/apache-maven-3.6.0/conf/settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectFrameBounds" fullScreen="true">
     <option name="x" value="80" />
     <option name="y" value="23" />
@@ -352,31 +360,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
-    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
-    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
-    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="passive-scan-client" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1570336794200" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.47192118" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/doc" />
@@ -387,19 +386,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="burp.Test" />
-      <module name="passive-scan-client" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="burp.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -413,11 +399,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Test" />
-      </list>
-    </recent_temporary>
+    <configuration name="Unnamed" type="Remote" nameIsGenerated="true">
+      <module name="passive-scan-client" />
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <option name="AUTO_RESTART" value="false" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="5005" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -449,6 +444,8 @@
       <workItem from="1570336839115" duration="5000" />
       <workItem from="1627441664558" duration="977000" />
       <workItem from="1675417420007" duration="1283000" />
+      <workItem from="1700231669017" duration="2967000" />
+      <workItem from="1705501886143" duration="5131000" />
     </task>
     <servers />
   </component>
@@ -464,27 +461,28 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="662" y="204" key="#com.intellij.ide.util.MemberChooser" timestamp="1675418753003">
-      <screen x="0" y="0" width="1792" height="1120" />
-    </state>
-    <state x="662" y="204" key="#com.intellij.ide.util.MemberChooser/0.0.1792.1120/1792.40.1920.1080@0.0.1792.1120" timestamp="1675418753003" />
-    <state x="273" y="108" key="SettingsEditor" timestamp="1675417748752">
-      <screen x="0" y="0" width="1792" height="1120" />
-    </state>
-    <state x="273" y="108" key="SettingsEditor/0.0.1792.1120/1792.40.1920.1080@0.0.1792.1120" timestamp="1675417748752" />
-    <state x="524" y="252" width="744" height="616" key="find.popup" timestamp="1675417598154">
-      <screen x="0" y="0" width="1792" height="1120" />
-    </state>
-    <state x="524" y="252" width="744" height="616" key="find.popup/0.0.1792.1120/1792.40.1920.1080@0.0.1792.1120" timestamp="1675417598154" />
-  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/burp/BurpExtender.java</url>
-          <line>75</line>
-          <option name="timeStamp" value="1" />
+          <line>317</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/burp/BurpExtender.java</url>
+          <line>323</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/burp/BurpExtender.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/burp/BurpExtender.java</url>
+          <line>121</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

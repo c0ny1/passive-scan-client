@@ -11,7 +11,7 @@ public class Utils {
                         + "[+]\n"
                         + "[+] #####################################\n"
                         + "[+]    " + BurpExtender.extensionName + " v" + BurpExtender.version +"\n"
-                        + "[+]    anthor: c0ny1\n"
+                        + "[+]    anthor: c0ny1 && yhy0\n"
                         + "[+]    email:  root@gv7.me\n"
                         + "[+]    github: http://github.com/c0ny1/passive-scan-client\n"
                         + "[+] ####################################\n"

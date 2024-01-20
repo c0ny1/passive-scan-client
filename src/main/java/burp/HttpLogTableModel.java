@@ -8,7 +8,7 @@ public class HttpLogTableModel extends AbstractTableModel {
     }
 
     public int getColumnCount() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -26,6 +26,8 @@ public class HttpLogTableModel extends AbstractTableModel {
                 return "Status";
             case 4:
                 return "Time";
+            case 5:
+                return "ProxyHost";
             default:
                 return "";
         }
@@ -52,6 +54,8 @@ public class HttpLogTableModel extends AbstractTableModel {
                 return logEntry.status;
             case 4:
                 return logEntry.requestTime;
+            case 5:
+                return logEntry.proxyHost;
             default:
                 return "";
         }

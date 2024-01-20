@@ -2,6 +2,8 @@ package burp;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
@@ -21,6 +23,10 @@ public class GUI implements IMessageEditorController {
     private JTextField tfUsername;
     private JLabel lbPassword;
     private JTextField tfPassword;
+
+    private JLabel lbHeader;
+    private JTextField tfHeader;
+
     private JTextField tfDomain;
     private JTextField tfExcludeSuffix;
     private JTextField tfBlackList;
@@ -83,7 +89,7 @@ public class GUI implements IMessageEditorController {
 
         tfHost = new JTextField();
         tfHost.setColumns(10);
-        tfHost.setText("127.0.0.1");
+        tfHost.setText(Config.PROXY_HOST);
         GridBagConstraints gbc_tfHost = new GridBagConstraints();
         gbc_tfHost.fill = 2;
         gbc_tfHost.insets = new Insets(0, 0, 0, 5);
@@ -100,7 +106,7 @@ public class GUI implements IMessageEditorController {
         ConfigPanel.add(lbPort, gbc_lbPort);
 
         tfPort = new JTextField();
-        tfPort.setText("1664");
+        tfPort.setText(String.valueOf(Config.PROXY_PORT));
         tfPort.setColumns(10);
         GridBagConstraints gbc_tfPort = new GridBagConstraints();
         gbc_tfPort.fill = 2;
@@ -118,7 +124,7 @@ public class GUI implements IMessageEditorController {
         ConfigPanel.add(lbUsername, gbc_lbUsername);
 
         tfUsername = new JTextField();
-        tfUsername.setText("");
+        tfUsername.setText(Config.PROXY_USERNAME);
         tfUsername.setColumns(10);
         GridBagConstraints gbc_tfUsername = new GridBagConstraints();
         gbc_tfUsername.fill = 2;
@@ -136,7 +142,7 @@ public class GUI implements IMessageEditorController {
         ConfigPanel.add(lbPassword, gbc_lbPassword);
 
         tfPassword = new JTextField();
-        tfPassword.setText("");
+        tfPassword.setText(Config.PROXY_PASSWORD);
         tfPassword.setColumns(10);
         GridBagConstraints gbc_tfPassword = new GridBagConstraints();
         gbc_tfPassword.fill = 2;
@@ -153,7 +159,7 @@ public class GUI implements IMessageEditorController {
         ConfigPanel.add(lbTimeout, gbc_lbTimeout);
 
         tfTimeout = new JTextField();
-        tfTimeout.setText("5000");
+        tfTimeout.setText(String.valueOf(Config.PROXY_TIMEOUT));
         tfTimeout.setColumns(5);
         GridBagConstraints gbc_tfTimeout = new GridBagConstraints();
         gbc_tfTimeout.fill = 2;
@@ -163,7 +169,7 @@ public class GUI implements IMessageEditorController {
         ConfigPanel.add(tfTimeout, gbc_tfTimeout);
 
         // 增加间隔时间
-        lbIntervalTime = new JLabel("Interva lTime:");
+        lbIntervalTime = new JLabel("Interval Time:");
         GridBagConstraints gbc_lbIntervalTime = new GridBagConstraints();
         gbc_lbIntervalTime.fill = 2;
         gbc_lbIntervalTime.gridx = 10;
@@ -171,7 +177,7 @@ public class GUI implements IMessageEditorController {
         ConfigPanel.add(lbIntervalTime, gbc_lbIntervalTime);
 
         tfIntervalTime = new JTextField();
-        tfIntervalTime.setText("5000");
+        tfIntervalTime.setText(String.valueOf(Config.INTERVAL_TIME));
         tfIntervalTime.setColumns(5);
         GridBagConstraints gbc_tfIntervalTime = new GridBagConstraints();
 //        fill属性用来处理GridBagLayout网格布局时子节点渲染的占位大小，2为撑满父组件
@@ -193,15 +199,15 @@ public class GUI implements IMessageEditorController {
         btnConn.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent arg0) {
                 boolean isSelected = btnConn.isSelected();
-
                 if(isSelected){
                     btnConn.setText("Stop");
                     Config.IS_RUNNING = true;
                     Config.PROXY_HOST = tfHost.getText();
-                    Config.PROXY_PORT = Integer.valueOf(tfPort.getText());
+                    Config.PROXY_PORT = tfPort.getText();
                     Config.PROXY_TIMEOUT = Integer.valueOf(tfTimeout.getText());
                     Config.PROXY_USERNAME = tfUsername.getText();
                     Config.PROXY_PASSWORD = tfPassword.getText();
+                    Config.PROXY_BASIC_HEADER = tfHeader.getText();
                     Config.DOMAIN_REGX = tfDomain.getText();
                     Config.SUFFIX_REGX = tfExcludeSuffix.getText();
                     Config.BLACKLIST_REGX = tfBlackList.getText();
@@ -252,12 +258,93 @@ public class GUI implements IMessageEditorController {
         ConfigPanel.add(btnClear, gbc_btnClear);
         ////////////////////////////////////////////////////////////////////
 
+        JPanel ProxyPanel = new JPanel();
+        GridBagConstraints gbc_proxy_panel = new GridBagConstraints();
+        gbc_proxy_panel.insets = new Insets(0, 5, 5, 5);
+        gbc_proxy_panel.fill = 2;
+        gbc_proxy_panel.gridx = 0;
+        gbc_proxy_panel.gridy = 1;
+        topPanel.add(ProxyPanel, gbc_proxy_panel);
+        GridBagLayout gbl_proxy_panel = new GridBagLayout();
+        gbl_proxy_panel.columnWidths = new int[] { 40, 225, 0, 0, 0 };
+        gbl_proxy_panel.rowHeights = new int[] { 0, 0 };
+        gbl_proxy_panel.columnWeights = new double[] { 0.0D, 0.0D, 0.0D,0.0D,1.0D, 0.0D, 0.0D,0.0D,0.0D,0.0D,0.0D,0.0D,Double.MIN_VALUE };
+        gbl_proxy_panel.rowWeights = new double[] { 0.0D, Double.MIN_VALUE };
+        ProxyPanel.setLayout(gbl_proxy_panel);
+
+        JLabel lbProxyHeader = new JLabel("Header:");
+        GridBagConstraints gbc_lbHeader = new GridBagConstraints();
+        gbc_lbHeader.insets = new Insets(0, 0, 0, 5);
+        gbc_lbHeader.anchor = 13;
+        gbc_lbHeader.fill = 2;
+        gbc_lbHeader.gridx = 0;
+        gbc_lbHeader.gridy = 0;
+        ProxyPanel.add(lbProxyHeader, gbc_lbHeader);
+
+        tfHeader = new JTextField();
+        tfHeader.setText(Config.PROXY_BASIC_HEADER);
+        tfHeader.setColumns(10);
+        GridBagConstraints gbc_tfHeader = new GridBagConstraints();
+        gbc_tfHeader.fill = 2;
+        gbc_tfHeader.insets = new Insets(0, 0, 0, 5);
+        gbc_tfHeader.gridx = 1;
+        gbc_tfHeader.gridy = 0;
+        ProxyPanel.add(tfHeader, gbc_tfHeader);
+
+        final JCheckBox proxyCheckBox = new JCheckBox("监控Proxy");
+        final JCheckBox repeaterCheckBox = new JCheckBox("监控Repeater");
+        final JCheckBox intruderCheckBox = new JCheckBox("监控Intruder");
+
+        proxyCheckBox.setSelected(Config.PROXY);
+        repeaterCheckBox.setSelected(Config.REPEATER);
+        intruderCheckBox.setSelected(Config.INTRUDER);
+        proxyCheckBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                Config.PROXY = proxyCheckBox.isSelected();
+            }
+        });
+        repeaterCheckBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                Config.REPEATER = repeaterCheckBox.isSelected();
+            }
+        });
+        intruderCheckBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                Config.INTRUDER = intruderCheckBox.isSelected();
+            }
+        });
+
+        GridBagConstraints gbc_tfproxy = new GridBagConstraints();
+        gbc_tfproxy.fill = 2;
+        gbc_tfproxy.insets = new Insets(0, 0, 0, 5);
+        gbc_tfproxy.gridx = 2;
+        gbc_tfproxy.gridy = 0;
+
+        GridBagConstraints gbc_tfrepeater = new GridBagConstraints();
+        gbc_tfrepeater.fill = 2;
+        gbc_tfrepeater.insets = new Insets(0, 0, 0, 5);
+        gbc_tfrepeater.gridx = 3;
+        gbc_tfrepeater.gridy = 0;
+
+        GridBagConstraints gbc_tfintruder = new GridBagConstraints();
+        gbc_tfintruder.fill = 2;
+        gbc_tfintruder.insets = new Insets(0, 0, 0, 5);
+        gbc_tfintruder.gridx = 4;
+        gbc_tfintruder.gridy = 0;
+
+        ProxyPanel.add(proxyCheckBox, gbc_tfproxy);
+        ProxyPanel.add(repeaterCheckBox, gbc_tfrepeater);
+        ProxyPanel.add(intruderCheckBox, gbc_tfintruder);
+
         JPanel FilterPanel2 = new JPanel();
         GridBagConstraints gbc_panel_2 = new GridBagConstraints();
         gbc_panel_2.insets = new Insets(0, 5, 5, 5);
         gbc_panel_2.fill = 2;
         gbc_panel_2.gridx = 0;
-        gbc_panel_2.gridy = 1;
+        gbc_panel_2.gridy = 2;
         topPanel.add(FilterPanel2, gbc_panel_2);
         GridBagLayout gbl_panel_2 = new GridBagLayout();
         gbl_panel_2.columnWidths = new int[] { 40, 225, 0, 0, 0 };
@@ -277,7 +364,7 @@ public class GUI implements IMessageEditorController {
         FilterPanel2.add(lbBlackList, gbc_lbBlackList);
 
         tfBlackList = new JTextField(90);
-        tfBlackList.setText("google.com|baidu.com|mozilla.org|mozilla.com|googleapis.com|delete|remove");
+        tfBlackList.setText(Config.BLACKLIST_REGX);
         GridBagConstraints gbc_tfBlackList = new GridBagConstraints();
         gbc_tfBlackList.insets = new Insets(0, 0, 0, 5);
         gbc_tfBlackList.fill = 2;
@@ -290,7 +377,7 @@ public class GUI implements IMessageEditorController {
         gbc_panel_1.insets = new Insets(0, 5, 5, 5);
         gbc_panel_1.fill = 2;
         gbc_panel_1.gridx = 0;
-        gbc_panel_1.gridy = 2;
+        gbc_panel_1.gridy = 3;
         topPanel.add(FilterPanel, gbc_panel_1);
         GridBagLayout gbl_panel_1 = new GridBagLayout();
         gbl_panel_1.columnWidths = new int[] { 40, 225, 0, 0, 0 };
@@ -316,7 +403,6 @@ public class GUI implements IMessageEditorController {
         gbc_tfDomain.gridy = 0;
         FilterPanel.add(tfDomain, gbc_tfDomain);
 
-
         JLabel lbExcludeSuffix = new JLabel("Exclude suffix:");
         GridBagConstraints gbc_lbExcludeSuffix = new GridBagConstraints();
         gbc_lbExcludeSuffix.insets = new Insets(0, 0, 0, 5);
@@ -327,7 +413,7 @@ public class GUI implements IMessageEditorController {
         FilterPanel.add(lbExcludeSuffix, gbc_lbExcludeSuffix);
 
         tfExcludeSuffix = new JTextField(35);
-        tfExcludeSuffix.setText("js|css|jpeg|gif|jpg|png|pdf|rar|zip|docx|doc|svg|jpeg|ico|woff|woff2|ttf|otf");
+        tfExcludeSuffix.setText(Config.SUFFIX_REGX);
         GridBagConstraints gbc_tfExcludeSuffix = new GridBagConstraints();
         gbc_tfExcludeSuffix.insets = new Insets(0, 0, 0, 5);
         gbc_tfExcludeSuffix.fill = 2;
@@ -469,6 +555,7 @@ public class GUI implements IMessageEditorController {
         tfPort.setEnabled(is);
         tfUsername.setEnabled(is);
         tfPassword.setEnabled(is);
+        tfHeader.setEnabled(is);
         tfTimeout.setEnabled(is);
         tfDomain.setEnabled(is);
         tfExcludeSuffix.setEnabled(is);
